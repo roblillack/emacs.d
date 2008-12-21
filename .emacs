@@ -123,10 +123,10 @@
                     :height 105 :width normal :family "terminus"))))
      '(fixed-pitch ((t nil)))
      '(linum ((t (:foreground "#555555" :background "white"
-                  :height 60 :box nil :family "sans"))))
+                  :height 80 :family "terminus"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
-                      :height 60 :family "sans"))))
+                      :height 90 :family "sans"))))
      '(variable-pitch ((t (:height 0.8 :family "sans"))))))
 
 (if (string= system-type "darwin")
