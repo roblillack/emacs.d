@@ -66,9 +66,9 @@
   (local-set-key (kbd "C-g C-g") 'senator-jump)
 )
 
-;(add-hook 'c-mode-common-hook 'my-semantic-hook)
-;(add-hook 'lisp-mode-hook 'my-semantic-hook)
-;(add-hook 'php-mode-hook 'my-semantic-hook)
+(add-hook 'c-mode-common-hook 'my-semantic-hook)
+(add-hook 'lisp-mode-hook 'my-semantic-hook)
+(add-hook 'php-mode-hook 'my-semantic-hook)
 
 ;(global-set-key [(control return)] 'semantic-ia-complete-symbol)
 ;(global-set-key [(control shift return)] 'semantic-ia-complete-symbol-menu)
@@ -337,6 +337,12 @@
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/ecb-2.32"))
 ;(require 'ecb)
 
+; color-theme
+; wget http://download.gna.org/color-theme/color-theme-6.6.0.zip
+;(add-to-list 'load-path "~/.emacs.d/plugins/color-theme")
+;(require 'color-theme)
+;(color-theme-initialize)
+;(color-theme-robin-hood)
 
 ; yasnippet
 ; cd ~/.emacs.d/plugins && svn checkout http://yasnippet.googlecode.com/svn/trunk/ yasnippet
@@ -375,7 +381,7 @@
 ;                               'company-semantic-ctxt-current-symbol
 ;                               'company-semantic-completion-func))
 
-;(company-install-dabbrev-completions)
+(company-install-dabbrev-completions)
 (company-install-file-name-completions)
 (company-install-lisp-completions)
 
