@@ -107,8 +107,8 @@
 ;; Some window system specific settings.
 (if window-system
   (progn
-    (menu-bar-mode (string= system-type "darwin"))
-    (tool-bar-mode 0)
+    (menu-bar-mode (if (eq system-type 'darwin) t -1))
+    (tool-bar-mode -1)
     (setq line-number-mode t)
     (setq column-number-mode t))
   (menu-bar-mode -1)
@@ -129,7 +129,7 @@
                       :height 90 :family "sans"))))
      '(variable-pitch ((t (:height 0.8 :family "sans"))))))
 
-(if (string= system-type "darwin")
+(if (eq system-type 'darwin)
     (custom-set-faces
      '(default ((t (:stipple nil :background "#ffffff"
                     :foreground "#1a1a1a" :inverse-video nil
@@ -144,6 +144,20 @@
                       :height 110 :family "Helvetica"))))
      '(variable-pitch ((t (:height 110 :family "Helvetica"))))))
 
+; eeePC? try some smaller fonts
+(when (string-match "^brutus" system-name)
+  (custom-set-faces
+   '(default ((t (:stipple nil :background "#ffffff"
+                           :foreground "#1a1a1a" :inverse-video nil
+                           :box nil :strike-through nil :overline nil
+                           :underline nil :slant normal :weight normal
+                           :height 75 :width normal :family "terminus"))))
+   '(linum ((t (:foreground "#999999" :background "#eeeeee"
+                            :height 40 :family "terminus"))))
+   '(mode-line ((t (:background "#5555aa" :foreground "white"
+                                :box (:line-width 1 :style released-button)
+                                :height 60 :family "sans"))))))
+
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
 (blink-cursor-mode t)                                 ; und blinken
@@ -154,8 +168,8 @@
 (setq paren-sexp-mode t)                              ; ... auch den inhalt markieren
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
-(when (featurep 'linum)                               ; nur falls es mitgeliefert ist
-  (global-linum-mode 1))                              ; ... wir wollen zeilennummern
+(require 'linum)                                      ; wir setzen das jetzt mal voraus
+(global-linum-mode 1)                                 ; ... wir wollen zeilennummern
 (display-time-mode t)                                 ; uhrzeit anzeigen
 (size-indication-mode t)                              ; groesse des files anzeigen
 (add-hook 'c-mode-common-hook
@@ -209,7 +223,7 @@
   '(progn
      (set-face-foreground 'diff-added "green4")
      (set-face-foreground 'diff-removed "red3")))
- 
+
 (eval-after-load 'magit
   '(progn
      (set-face-foreground 'magit-diff-add "green3")
@@ -471,7 +485,7 @@ Otherwise, analyses point position and answers."
   (global-set-key (kbd "C-'") 'bm-toggle)
   (global-set-key (kbd "C-,") 'bm-previous)
   (global-set-key (kbd "C-.") 'bm-next)
-  (global-set-key [left-fringe mouse-1]
+  (global-set-key (or [left-margin mouse-1] [left-fringe mouse-1])
                   '(lambda (event)
                      (interactive "e")
                      (save-excursion (mouse-set-point event) (bm-toggle)))))
