@@ -3,6 +3,8 @@
 (setq *is-carbon-emacs* (and *is-a-mac* (eq window-system 'mac)))
 (setq *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
+(setq *want-semantic* nil)
+
 ;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 ;    (let* ((my-lisp-dir "~/.emacs.d/plugins/")
 ;           (default-directory my-lisp-dir))
@@ -25,53 +27,45 @@
 ; jetzt ziehen wir alle register
 (set-register ?e '(file . "~/.emacs"))
 
-(load "~/.emacs.d/plugins/cedet/common/cedet.el")
 ;;; CEDET
-;(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/cedet/semantic"))
-;(setq semantic-load-turn-useful-things-on t)
-;(semantic-load-enable-guady-code-helpers)
-;(setq semanticdb-project-roots
-;      (list "/home/llasram/ws/RUTABAGA"))
-;(load "cedet")
-(require 'semantic)
-(require 'semanticdb)
-;(require 'semantic-util-modes)
-;(require 'semantic-gcc)
-(require 'semantic-ia)
-(require 'senator)
-(global-senator-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)        ; reparsen, wenn idle
-;(global-semantic-decoration-mode (semantic-decoration-styles))
-;;(global-semantic-highlight-edits-mode 1)       ; aenderungen highlighten, bis sie geparst sind
-;(global-semantic-idle-completions-mode 1)      ; menue anzeigen, wenn idle
-(global-semanticdb-minor-mode 1)
-;(global-semantic-auto-parse-mode t)
-;(global-semantic-summary-mode t)
-(global-semantic-show-parser-state-mode 1)
-(global-semantic-idle-summary-mode 1)          ; functions-signatur zeigen, wenn idle
-;(global-semantic-show-dirty-mode nil nil (semantic-util-modes))
-;(global-semantic-show-unmatched-syntax-mode 1) ; unparsable code markieren
-;(global-semantic-stickyfunc-mode t nil (semantic-util-modes))
-;(global-semantic-summary-mode t nil (semantic-util-modes))
-(setq semanticdb-default-save-directory "~/.emacs.d/cache/semanticdb")
-(setq semanticdb-persistent-path '(always))
-(setq semanticdb-system-database-warn-level t)
-;(semantic-load-enable-guady-code-helpers)
+(when *want-semantic*
+  (load "~/.emacs.d/plugins/cedet/common/cedet.el")
+  (require 'semantic)
+  (require 'semanticdb)
+  (require 'semantic-ia)
+  (require 'senator)
+  (global-senator-minor-mode 1)
+  (global-semantic-idle-scheduler-mode 1)        ; reparsen, wenn idle
+  ;(global-semantic-decoration-mode (semantic-decoration-styles))
+  ;;(global-semantic-highlight-edits-mode 1)       ; aenderungen highlighten, bis sie geparst sind
+  ;(global-semantic-idle-completions-mode 1)      ; menue anzeigen, wenn idle
+  ;(global-semanticdb-minor-mode 1)
+  ;(global-semantic-auto-parse-mode t)
+  (global-semantic-summary-mode t)
+  ;(global-semantic-show-parser-state-mode 1)
+  (global-semantic-idle-summary-mode 1)          ; functions-signatur zeigen, wenn idle
+  ;(global-semantic-show-dirty-mode nil nil (semantic-util-modes))
+  ;(global-semantic-show-unmatched-syntax-mode 1) ; unparsable code markieren
+  (global-semantic-stickyfunc-mode t nil (semantic-util-modes))
+  (global-semantic-summary-mode t nil (semantic-util-modes))
+  (setq semanticdb-default-save-directory "~/.emacs.d/cache/semanticdb")
+  (setq semanticdb-persistent-path '(always))
+  (setq semanticdb-system-database-warn-level t)
+  ;(semantic-load-enable-guady-code-helpers)
 
-(defun my-semantic-hook ()
-  (local-set-key (kbd "C-/") 'semantic-ia-complete-symbol)
-;  (local-set-key (kbd "C-/") 'semantic-ia-complete-symbol-menu)
-  (local-set-key (kbd "C-.") 'senator-completion-menu-popup)
-;  (local-set-key (kbd "C-.") 'semantic-complete-analyze-inline)
-  (local-set-key (kbd "C-g C-g") 'senator-jump)
+  (defun my-semantic-hook ()
+    (local-set-key (kbd "C-/") 'semantic-ia-complete-symbol)
+    ;(local-set-key (kbd "C-/") 'semantic-ia-complete-symbol-menu)
+    ;(local-set-key (kbd "C-.") 'senator-completion-menu-popup)
+    ;(local-set-key (kbd "C-.") 'semantic-complete-analyze-inline)
+    ;(local-set-key (kbd "C-g C-g") 'senator-jump)
+    )
+  (add-hook 'c-mode-common-hook 'my-semantic-hook)
+  (add-hook 'lisp-mode-hook 'my-semantic-hook)
+  ;(add-hook 'php-mode-hook 'my-semantic-hook)
+  ;(global-set-key [(control return)] 'semantic-ia-complete-symbol)
+  ;(global-set-key [(control shift return)] 'semantic-ia-complete-symbol-menu)
 )
-
-(add-hook 'c-mode-common-hook 'my-semantic-hook)
-(add-hook 'lisp-mode-hook 'my-semantic-hook)
-(add-hook 'php-mode-hook 'my-semantic-hook)
-
-;(global-set-key [(control return)] 'semantic-ia-complete-symbol)
-;(global-set-key [(control shift return)] 'semantic-ia-complete-symbol-menu)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
@@ -126,7 +120,7 @@
                   :height 80 :family "terminus"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
-                      :height 90 :family "sans"))))
+                      :height 70 :family "sans"))))
      '(variable-pitch ((t (:height 0.8 :family "sans"))))))
 
 (if (eq system-type 'darwin)
@@ -137,7 +131,7 @@
                     :underline nil :slant normal :weight normal
                     :height 100 :width normal :family "monaco"))))
      '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "white"
+     '(linum ((t (:foreground "#555555" :background "#eeeeee"
                   :height 90 :family "Helvetica"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
@@ -390,16 +384,18 @@
 (define-key company-mode-map "\t" 'ignore)
 (define-key company-active-map [tab] 'company-expand-anything)
 
-;(dolist (mode '(php-mode))
-;  (company-add-completion-rule mode
-;                               'company-semantic-ctxt-current-symbol
-;                               'company-semantic-completion-func))
+(when *want-semantic*
+  (dolist (mode '(php-mode))
+    (company-add-completion-rule mode
+                                 'company-semantic-ctxt-current-symbol
+                                 'company-semantic-completion-func)))
 
 (company-install-dabbrev-completions)
 (company-install-file-name-completions)
 (company-install-lisp-completions)
 
-(dolist (hook '(css-mode-hook
+(dolist (hook '(c-mode-common-hook
+                css-mode-hook
                 php-mode-hook
                 emacs-lisp-hook
                 lisp-mode-hook))
