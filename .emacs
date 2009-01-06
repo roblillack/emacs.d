@@ -321,8 +321,10 @@
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.php3\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.php4\\'" . php-mode))
-;(add-hook 'php-mode-hook
-;          (lambda ()
+
+(add-hook 'php-mode-hook
+          (lambda ()
+            (define-key php-mode-map (kbd "C-.") nil)))
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
 
@@ -390,9 +392,10 @@
                                  'company-semantic-ctxt-current-symbol
                                  'company-semantic-completion-func)))
 
-(company-install-dabbrev-completions)
-(company-install-file-name-completions)
-(company-install-lisp-completions)
+;(company-install-dabbrev-completions)
+;(company-install-file-name-completions)
+;(company-install-lisp-completions)
+(require 'company-gtags-completions)
 
 (dolist (hook '(c-mode-common-hook
                 css-mode-hook
@@ -455,6 +458,19 @@ Otherwise, analyses point position and answers."
 
 (global-set-key [tab] 'smart-tab)
 
+(require 'gtags)
+(dolist (hook '(c-mode-hook
+                php-mode-hook
+                emacs-lisp-hook
+                lisp-mode-hook))
+  (add-hook hook
+            '(lambda ()
+               (gtags-mode t))))
+(global-set-key (kbd "C-j") 'gtags-find-tag)
+;(global-set-key (kbd "C-j left") 'gtags-pop-stack)
+
+
+
 ; tabkey2
 ; wget http://www.emacswiki.org/cgi-bin/emacs/download/tabkey2.el
 ;        ("yasnippet" yas/expand (commandp 'yas/expand))
@@ -476,15 +492,17 @@ Otherwise, analyses point position and answers."
 ; http://download.savannah.gnu.org/releases/bm/bm-1.34.el
 (when window-system
   (require 'bm)
+  (defun bm-mouse-toggle (event)
+    (interactive "e")
+    (save-excursion (mouse-set-point event) (bm-toggle)))
   (setq-default bm-buffer-persistence t)
   (setq bm-highlight-style 'bm-highlight-only-fringe)
+  (global-set-key (kbd "C-#") 'bm-toggle)
   (global-set-key (kbd "C-'") 'bm-toggle)
   (global-set-key (kbd "C-,") 'bm-previous)
   (global-set-key (kbd "C-.") 'bm-next)
-  (global-set-key (or [left-margin mouse-1] [left-fringe mouse-1])
-                  '(lambda (event)
-                     (interactive "e")
-                     (save-excursion (mouse-set-point event) (bm-toggle)))))
+  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle)
+  (global-set-key [left-margin mouse-1] 'bm-mouse-toggle))
 
 ; ruby
 ; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
