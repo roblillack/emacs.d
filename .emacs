@@ -116,8 +116,8 @@
                     :underline nil :slant normal :weight normal
                     :height 105 :width normal :family "terminus"))))
      '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "white"
-                  :height 80 :family "terminus"))))
+     '(linum ((t (:foreground "#555555" :background "#eeeeee"
+                  :height 105 :family "terminus"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
                       :height 70 :family "sans"))))
@@ -238,6 +238,8 @@
 (global-set-key [(control tab)] 'cycle-buffer)
 (global-set-key (kbd "<mode-line> <wheel-up>") 'cycle-buffer)
 (global-set-key (kbd "<mode-line> <wheel-down>") 'cycle-buffer-backward)
+(global-set-key (kbd "<mode-line> <mouse-4>") 'cycle-buffer)
+(global-set-key (kbd "<mode-line> <mouse-5>") 'cycle-buffer-backward)
 
 ; mehrere files mit gleichem namen? verzeichnisse mit in puffernamen nehmen
 (require 'uniquify)
