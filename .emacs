@@ -146,8 +146,7 @@
                            :box nil :strike-through nil :overline nil
                            :underline nil :slant normal :weight normal
                            :height 75 :width normal :family "terminus"))))
-   '(linum ((t (:foreground "#999999" :background "#eeeeee"
-                            :height 40 :family "terminus"))))
+   '(linum ((t (:foreground "#999999" :background "#eeeeee"))))
    '(mode-line ((t (:background "#5555aa" :foreground "white"
                                 :box (:line-width 1 :style released-button)
                                 :height 60 :family "sans"))))))
