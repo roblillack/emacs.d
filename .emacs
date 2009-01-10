@@ -494,17 +494,20 @@ Otherwise, analyses point position and answers."
 ; http://download.savannah.gnu.org/releases/bm/bm-1.34.el
 (when window-system
   (require 'bm)
+  (setq-default bm-buffer-persistence t)
+  (setq bm-highlight-style 'bm-highlight-line-and-fringe)
+  (custom-set-faces
+   '(bm-fringe-persistent-face ((t (:background "#ccccff" :foreground "black"))))
+   '(bm-persistent-face ((t (:background "#ccccff" :foreground "black")))))
+  (global-set-key (kbd "C-'") 'bm-toggle)
+  (global-set-key (kbd "C-#") 'bm-toggle)
+  (global-set-key (kbd "C-,") 'bm-previous)
+  (global-set-key (kbd "C-.") 'bm-next)
   (defun bm-mouse-toggle (event)
     (interactive "e")
     (save-excursion (mouse-set-point event) (bm-toggle)))
-  (setq-default bm-buffer-persistence t)
-  (setq bm-highlight-style 'bm-highlight-only-fringe)
-  (global-set-key (kbd "C-#") 'bm-toggle)
-  (global-set-key (kbd "C-'") 'bm-toggle)
-  (global-set-key (kbd "C-,") 'bm-previous)
-  (global-set-key (kbd "C-.") 'bm-next)
-  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle)
-  (global-set-key [left-margin mouse-1] 'bm-mouse-toggle))
+  (global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
+  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle))
 
 ; ruby
 ; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
