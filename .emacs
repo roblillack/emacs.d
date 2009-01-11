@@ -4,6 +4,8 @@
 (setq *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
 (setq *want-semantic* nil)
+(setq *want-company* nil)
+(setq *want-gtags* nil)
 
 ;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 ;    (let* ((my-lisp-dir "~/.emacs.d/plugins/")
@@ -116,8 +118,7 @@
                     :underline nil :slant normal :weight normal
                     :height 105 :width normal :family "terminus"))))
      '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "#eeeeee"
-                  :height 105 :family "terminus"))))
+     '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
                       :height 70 :family "sans"))))
@@ -301,6 +302,8 @@
 (global-set-key "\C-\M-r" 'isearch-backward)
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 
+(global-set-key "\C-j" 'imenu)
+
 (global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
 ;(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 ;(global-set-key (kbd "C-x C-p") 'find-file-at-point)
@@ -365,6 +368,7 @@
 (yas/load-directory "~/.emacs.d/snippets")
 
 ; hippie
+(require 'dabbrev)
 (require 'hippie-exp)
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -375,37 +379,38 @@
         try-completion))
 ;(global-set-key [tab] 'hippie-expand)
 
-(require 'dabbrev)
-(add-to-list 'load-path "~/.emacs.d/plugins/company")
-(require 'company-mode)
-(require 'company-bundled-completions)
-;(company-install-bundled-completions-rules)
-(setq company-complete-on-edit 4)
-(setq company-idle-delay nil)
-(setq company-display-style 'pseudo-tooltip)
-(setq company-tooltip-delay 0.1)
-(define-key company-mode-map "\t" 'ignore)
-(define-key company-active-map [tab] 'company-expand-anything)
+(when *want-company*
+  (add-to-list 'load-path "~/.emacs.d/plugins/company")
+  (require 'company-mode)
+  (require 'company-bundled-completions)
+  ;(company-install-bundled-completions-rules)
+  (setq company-complete-on-edit 4)
+  (setq company-idle-delay nil)
+  (setq company-display-style 'pseudo-tooltip)
+  (setq company-tooltip-delay 0.1)
+  (define-key company-mode-map "\t" 'ignore)
+  (define-key company-active-map [tab] 'company-expand-anything)
 
-(when *want-semantic*
-  (dolist (mode '(php-mode))
-    (company-add-completion-rule mode
-                                 'company-semantic-ctxt-current-symbol
-                                 'company-semantic-completion-func)))
+  (when *want-semantic*
+    (dolist (mode '(php-mode))
+      (company-add-completion-rule mode
+                                   'company-semantic-ctxt-current-symbol
+                                   'company-semantic-completion-func)))
 
-;(company-install-dabbrev-completions)
-;(company-install-file-name-completions)
-;(company-install-lisp-completions)
-(require 'company-gtags-completions)
+  (company-install-dabbrev-completions)
+  (company-install-file-name-completions)
+  (company-install-lisp-completions)
+  (when *want-gtags*
+    (require 'company-gtags-completions))
 
-(dolist (hook '(c-mode-common-hook
-                css-mode-hook
-                php-mode-hook
-                emacs-lisp-hook
-                lisp-mode-hook))
-  (add-hook hook
-            '(lambda ()
-               (company-mode t))))
+  (dolist (hook '(c-mode-common-hook
+                  css-mode-hook
+                  php-mode-hook
+                  emacs-lisp-hook
+                  lisp-mode-hook))
+    (add-hook hook
+              '(lambda ()
+                 (company-mode t)))))
 
 ;(require 'completion-ui)
 ;(defun dabbrev--wrapper (prefix maxnum)
@@ -436,11 +441,11 @@
 using `company-mode' or `hippie-expand'."
   (interactive)
   (unless (yas/expand)
-    (if (and (functionp 'company-mode) company-mode)
+    (if *want-company*
         (company-start-showing)
       (if (functionp 'complete-word-at-point)
           (complete-word-at-point)
-        (dabbrev-expand)))))
+        (hippie-expand)))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
@@ -459,17 +464,18 @@ Otherwise, analyses point position and answers."
 
 (global-set-key [tab] 'smart-tab)
 
-(require 'gtags)
-(dolist (hook '(c-mode-hook
-                php-mode-hook
-                emacs-lisp-hook
-                lisp-mode-hook))
-  (add-hook hook
-            '(lambda ()
-               (gtags-mode t))))
-(global-set-key (kbd "C-j") 'gtags-find-tag)
+(when *want-gtags*
+  (require 'gtags)
+  (dolist (hook '(c-mode-hook
+                  php-mode-hook
+                  emacs-lisp-hook
+                  lisp-mode-hook))
+    (add-hook hook
+              '(lambda ()
+                 (gtags-mode t))))
+  (global-set-key (kbd "C-j") 'gtags-find-tag)
 ;(global-set-key (kbd "C-j left") 'gtags-pop-stack)
-
+)
 
 
 ; tabkey2
