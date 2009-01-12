@@ -363,6 +363,7 @@
 (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (setq yas/trigger-key [f8])
+(setq yas/next-field-key [S-tab])
 (setq yas/fallback-behaviour 'return-nil)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
@@ -375,8 +376,8 @@
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill
         try-complete-file-name
-        try-complete-lisp-symbol
-        try-completion))
+        try-complete-lisp-symbol))
+        ;try-completion))
 ;(global-set-key [tab] 'hippie-expand)
 
 (when *want-company*
@@ -390,6 +391,7 @@
   (setq company-tooltip-delay 0.1)
   (define-key company-mode-map "\t" 'ignore)
   (define-key company-active-map [tab] 'company-expand-anything)
+  (define-key company-active-map [S-return] 'company-expand-top)
 
   (when *want-semantic*
     (dolist (mode '(php-mode))
@@ -442,10 +444,11 @@ using `company-mode' or `hippie-expand'."
   (interactive)
   (unless (yas/expand)
     (if *want-company*
-        (company-start-showing)
-      (if (functionp 'complete-word-at-point)
-          (complete-word-at-point)
-        (hippie-expand)))))
+        (call-interactively 'company-start-showing)
+      (call-interactively 'hippie-expand))))
+;      (if (functionp 'complete-word-at-point)
+;          (complete-word-at-point)
+;        (hippie-expand)))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
