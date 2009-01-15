@@ -193,6 +193,7 @@
 (setq-default c-basic-offset 4)                       ; indent ist 4 zeichen breit
 (setq-default show-trailing-whitespace t)             ; whitespace am zeilenende zeigen
 (setq scroll-conservatively 3)                        ; bei max 3 zeilen scrollen ohne recenter
+(c-subword-mode t)                                    ; CamelCase als EinzelWorte
 
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
