@@ -163,6 +163,7 @@
 (custom-set-faces
  '(show-paren-match-face
    ((t (:background "#ccffee")))))
+(setq parse-sexp-ignore-comments t)                   ; ignore comments when balancing stuff
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
 (require 'linum)                                      ; wir setzen das jetzt mal voraus
@@ -194,9 +195,11 @@
 (setq-default indent-tabs-mode nil)                   ; einruecken mit space
 (setq-default tab-width 4)                            ; ein tab ist 4 zeichen breit
 (setq-default c-basic-offset 4)                       ; indent ist 4 zeichen breit
-(setq-default show-trailing-whitespace t)             ; whitespace am zeilenende zeigen
+(setq-default show-trailing-whitespace nil)           ; whitespace am zeilenende NICHT zeigen
 (setq scroll-conservatively 3)                        ; bei max 3 zeilen scrollen ohne recenter
-(c-subword-mode t)                                    ; CamelCase als EinzelWorte
+(add-hook 'c-mode-common-hook
+          (lambda () (c-subword-mode t)))             ; CamelCase als EinzelWorte
+
 
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
@@ -321,6 +324,7 @@
 ;(require 'git)
 ;(autoload 'git-blame-mode "git-blame"
 ;          "Minor mode for incremental blame for Git." t)
+
 
 ; *** MAJOR MODES ***
 
