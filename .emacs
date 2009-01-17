@@ -132,7 +132,7 @@
                     :underline nil :slant normal :weight normal
                     :height 100 :width normal :family "monaco"))))
      '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "#eeeeee"
+     '(linum ((t (:foreground "#555555" :background "white"
                   :height 90 :family "Helvetica"))))
      '(mode-line ((t (:background "#5555aa" :foreground "white"
                       :box (:line-width 1 :style released-button)
@@ -159,7 +159,10 @@
 (set-face-background 'hl-line "#eeeef8")              ; ... und lachsfarben anmalen
 (show-paren-mode t)                                   ; klammern markieren
 (setq paren-match-face 'paren-face-match-light)       ; ... die benutzte farbe setzen
-(setq paren-sexp-mode t)                              ; ... auch den inhalt markieren
+(setq show-paren-style 'expression)                   ; ... den kompletten content markieren
+(custom-set-faces
+ '(show-paren-match-face
+   ((t (:background "#ccffee")))))
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
 (require 'linum)                                      ; wir setzen das jetzt mal voraus
