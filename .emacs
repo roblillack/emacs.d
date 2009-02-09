@@ -110,47 +110,28 @@
   (menu-bar-mode -1)
 )
 
-(if (string= system-type "gnu/linux")
-    (custom-set-faces
-     '(default ((t (:stipple nil :background "#ffffff"
-                    :foreground "#1a1a1a" :inverse-video nil
-                    :box nil :strike-through nil :overline nil
-                    :underline nil :slant normal :weight normal
-                    :height 105 :width normal :family "terminus"))))
-     '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
-     '(mode-line ((t (:background "#5555aa" :foreground "white"
-                      :box (:line-width 1 :style released-button)
-                      :height 70 :family "sans"))))
-     '(variable-pitch ((t (:height 0.8 :family "sans"))))))
-
-(if (eq system-type 'darwin)
-    (custom-set-faces
-     '(default ((t (:stipple nil :background "#ffffff"
-                    :foreground "#1a1a1a" :inverse-video nil
-                    :box nil :strike-through nil :overline nil
-                    :underline nil :slant normal :weight normal
-                    :height 100 :width normal :family "monaco"))))
-     '(fixed-pitch ((t nil)))
-     '(linum ((t (:foreground "#555555" :background "white"
-                  :height 90 :family "Helvetica"))))
-     '(mode-line ((t (:background "#5555aa" :foreground "white"
-                      :box (:line-width 1 :style released-button)
-                      :height 110 :family "Helvetica"))))
-     '(variable-pitch ((t (:height 110 :family "Helvetica"))))))
+(custom-set-faces
+ '(default ((default (:stipple nil :background "#ffffff"
+                      :foreground "#1a1a1a" :inverse-video nil
+                      :box nil :strike-through nil :overline nil
+                      :underline nil :slant normal :weight normal
+                      :width normal))
+            (((type ns)) (:height 100 :family "monaco"))
+            (t (:height 105 :family "terminus"))))
+ '(fixed-pitch ((t nil)))
+ '(trailing-whitespace ((t :background "#ffffee")))
+ '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
+ '(mode-line ((default (:background "#5555aa" :foreground "white"
+                  :box (:line-width 1 :style released-button)))
+              (((type ns)) (:height 105 :family "Helvetica"))
+              (t (:height 70 :family "sans"))))
+ '(variable-pitch ((t (:inherit mode-line)))))   
 
 ; eeePC? try some smaller fonts
-(when (string-match "^brutus" system-name)
+(when (string-match "^brutus" system-name) 
   (custom-set-faces
-   '(default ((t (:stipple nil :background "#ffffff"
-                           :foreground "#1a1a1a" :inverse-video nil
-                           :box nil :strike-through nil :overline nil
-                           :underline nil :slant normal :weight normal
-                           :height 75 :width normal :family "terminus"))))
-   '(linum ((t (:foreground "#999999" :background "#eeeeee"))))
-   '(mode-line ((t (:background "#5555aa" :foreground "white"
-                                :box (:line-width 1 :style released-button)
-                                :height 60 :family "sans"))))))
+   '(default ((t (:height 75))))
+   '(mode-line ((t (:height 60))))))
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
@@ -195,10 +176,23 @@
 (setq-default indent-tabs-mode nil)                   ; einruecken mit space
 (setq-default tab-width 4)                            ; ein tab ist 4 zeichen breit
 (setq-default c-basic-offset 4)                       ; indent ist 4 zeichen breit
-(setq-default show-trailing-whitespace nil)           ; whitespace am zeilenende NICHT zeigen
+(setq-default show-trailing-whitespace t)             ; whitespace am zeilenende zeigen
 (setq scroll-conservatively 3)                        ; bei max 3 zeilen scrollen ohne recenter
 (add-hook 'c-mode-common-hook
           (lambda () (c-subword-mode t)))             ; CamelCase als EinzelWorte
+
+
+(defun toggle-show-trailing-whitespace ()
+  "Toggle the display of trailing whitespace, by changing the
+buffer-local variable `show-trailing-whitespace'."
+  (interactive)   
+  (save-excursion
+    (setq show-trailing-whitespace
+          (not show-trailing-whitespace))
+    (redraw-display)
+    (message (concat "Display of trailing whitespace "
+                     (if show-trailing-whitespace
+                         "enabled" "disabled")))))   
 
 
 ; merkt sich, wo wir in welchem file waren
