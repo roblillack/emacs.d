@@ -117,15 +117,15 @@
                       :underline nil :slant normal :weight normal
                       :width normal))
             (((type ns)) (:height 100 :family "monaco"))
-            (t (:height 105 :family "terminus"))))
+            (t (:height 90 :family "DejaVu Sans Mono"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
  '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 105 :family "Helvetica"))
-              (t (:height 70 :family "sans"))))
- '(variable-pitch ((t (:inherit mode-line)))))   
+              (t (:height 80 :family "sans"))))
+ '(variable-pitch ((t (:inherit mode-line)))))
 
 ; eeePC? try some smaller fonts
 (when (string-match "^brutus" system-name) 
