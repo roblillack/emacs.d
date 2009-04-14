@@ -125,7 +125,10 @@
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 105 :family "Helvetica"))
               (t (:height 80 :family "sans"))))
- '(variable-pitch ((t (:inherit mode-line)))))
+ '(variable-pitch ((t (:inherit mode-line))))
+ '(font-lock-comment-face ((t (:foreground "#555555"))))
+ '(font-lock-variable-name-face ((t (:foreground "#993333")))))
+
 
 ; eeePC? try some smaller fonts
 (when (string-match "^brutus" system-name) 
@@ -271,12 +274,16 @@ buffer-local variable `show-trailing-whitespace'."
 ;(setq default-input-method "MacOSX")
 
 ;; full screen toggle using command+[RET]
-;(defun toggle-fullscreen ()
-;  (interactive)
-;  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
-;                                           nil
-;                                           'fullboth)))
-;(global-set-key [(super return)] 'toggle-fullscreen)
+;; http://www.emacswiki.org/cgi-bin/wiki/FullScreen
+(defun toggle-fullscreen ()
+  (interactive)
+  (if (eq system-type 'darwin)
+      (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
+                                               nil
+                                             'fullboth))
+    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+                           '(2 "_NET_WM_STATE_FULLSCREEN" 0))))
+(global-set-key [(super return)] 'toggle-fullscreen)
 
 ; Terminal.app
 (global-set-key (kbd "\e[h") 'beginning-of-line)
