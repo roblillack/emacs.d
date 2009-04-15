@@ -197,7 +197,6 @@ buffer-local variable `show-trailing-whitespace'."
                      (if show-trailing-whitespace
                          "enabled" "disabled")))))   
 
-
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
 (setq save-place-file (convert-standard-filename "~/.emacs.d/places"))
@@ -525,6 +524,18 @@ Otherwise, analyses point position and answers."
     (save-excursion (mouse-set-point event) (bm-toggle)))
   (global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
   (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle))
+
+; highlight-symbol
+; cd ~/.emacs.d/plugins
+; wget http://nschum.de/src/emacs/highlight-symbol/highlight-symbol.el
+(require 'highlight-symbol)
+(defun highlight-symbol-mouse-toggle (event)
+  (interactive "e")
+  (save-excursion (mouse-set-point event) (highlight-symbol-at-point)))
+(global-set-key (kbd "C-\"") 'highlight-symbol-at-point)
+(global-set-key (kbd "C-<") '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
+(global-set-key (kbd "C->") '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
+(global-set-key [(control shift mouse-1)] 'highlight-symbol-mouse-toggle)
 
 ; ruby
 ; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
