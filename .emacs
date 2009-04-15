@@ -244,6 +244,9 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key (kbd "<mode-line> <mouse-4>") 'cycle-buffer)
 (global-set-key (kbd "<mode-line> <mouse-5>") 'cycle-buffer-backward)
 
+; frame switching
+(global-set-key (kbd "C-`") 'next-multiframe-window)
+
 ; mehrere files mit gleichem namen? verzeichnisse mit in puffernamen nehmen
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
