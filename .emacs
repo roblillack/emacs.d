@@ -491,23 +491,6 @@ Otherwise, analyses point position and answers."
 ;(global-set-key (kbd "C-j left") 'gtags-pop-stack)
 )
 
-
-; tabkey2
-; wget http://www.emacswiki.org/cgi-bin/emacs/download/tabkey2.el
-;        ("yasnippet" yas/expand (commandp 'yas/expand))
-;        ("Ispell complete word" ispell-complete-word (commandp 'ispell-complete-word))
-;("Semantic" senator-complete-symbol senator-minor-mode)
-;(require 'tabkey2)
-;(setq tabkey2-completion-functions
-;      '(
-;        ("Semantic" senator-complete-symbol senator-minor-mode)
-;        ("Complete Emacs symbol" lisp-complete-symbol)
-;        ("PHP Completion" php-complete-function)
-;        ("dabbrev" dabbrev-expand (commandp 'dabbrev-expand)
-;         '(lambda (setq dabbrev--last-abbrev-location nil)))
-;        ))
-;(tabkey2-mode t)
-
 ; bookmarks
 ; cd ~/.emacs.d/plugins
 ; http://download.savannah.gnu.org/releases/bm/bm-1.34.el
