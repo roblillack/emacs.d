@@ -331,6 +331,21 @@ buffer-local variable `show-trailing-whitespace'."
 
 ; *** MAJOR MODES ***
 
+; Org+Remember
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org"))
+(setq org-CUA-compatible t)
+(org-remember-insinuate)
+(setq org-directory "~/org")
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cr" 'org-remember)
+(setq org-clock-persist t)
+(org-clock-persistence-insinuate)
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+
 ; PHP support
 (autoload 'php-mode "php-mode" "PHP editing mode" t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
