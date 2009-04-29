@@ -311,6 +311,8 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key "\C-\M-s" 'isearch-forward)
 (global-set-key "\C-\M-r" 'isearch-backward)
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
+(define-key isearch-mode-map (kbd "<escape>") 'isearch-abort)
+
 
 (global-set-key "\C-j" 'imenu)
 
