@@ -289,6 +289,9 @@ buffer-local variable `show-trailing-whitespace'."
                            '(2 "_NET_WM_STATE_FULLSCREEN" 0))))
 (global-set-key [(super return)] 'toggle-fullscreen)
 
+; tab is tab
+(define-key key-translation-map "\t" (kbd "<tab>"))
+
 ; Terminal.app
 (global-set-key (kbd "\e[h") 'beginning-of-line)
 (global-set-key (kbd "\e[f") 'end-of-line)
