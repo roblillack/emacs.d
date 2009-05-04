@@ -271,7 +271,8 @@ buffer-local variable `show-trailing-whitespace'."
 		  0 0)
   (newline-and-indent)
   (newline-and-indent))
-(add-hook 'after-init-hook 'emacs-reloaded)
+(when (window-system)
+  (add-hook 'after-init-hook 'emacs-reloaded))
 
 
 ;(setq default-input-method "MacOSX")
