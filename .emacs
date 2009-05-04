@@ -294,6 +294,32 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key (kbd "\e[5d") 'backward-word)
 (global-set-key (kbd "\e[5c") 'forward-word)
 
+; Screen
+(if (null key-translation-map) (setq key-translation-map (make-sparse-keymap)))
+(define-key key-translation-map (kbd "M-O A") (kbd "<up>"))
+(define-key key-translation-map (kbd "M-O B") (kbd "<down>"))
+(define-key key-translation-map (kbd "M-O C") (kbd "<right>"))
+(define-key key-translation-map (kbd "M-O D") (kbd "<left>"))
+
+(define-key key-translation-map (kbd "\e[1;5A") (kbd "<C-up>"))
+(define-key key-translation-map (kbd "\e[1;5B") (kbd "<C-down>"))
+(define-key key-translation-map (kbd "\e[1;5C") (kbd "<C-right>"))
+(define-key key-translation-map (kbd "\e[1;5D") (kbd "<C-left>"))
+
+(define-key key-translation-map (kbd "\e[1;2A") (kbd "<S-up>"))
+(define-key key-translation-map (kbd "\e[1;2B") (kbd "<S-down>"))
+(define-key key-translation-map (kbd "\e[1;2C") (kbd "<S-right>"))
+(define-key key-translation-map (kbd "\e[1;2D") (kbd "<S-left>"))
+
+(define-key key-translation-map (kbd "\e[1~") (kbd "<home>"))
+(define-key key-translation-map (kbd "\e[4~") (kbd "<end>"))
+(define-key key-translation-map (kbd "\e[3~") (kbd "<deletechar>"))
+(define-key key-translation-map (kbd "\e[3;5~") (kbd "<C-delete>"))
+(define-key key-translation-map (kbd "\e[5~") (kbd "<prior>"))
+(define-key key-translation-map (kbd "\e[6~") (kbd "<next>"))
+(define-key key-translation-map (kbd "\e[5;5~") (kbd "<C-prior>"))
+(define-key key-translation-map (kbd "\e[5;6~") (kbd "<C-next>"))
+
 ; Emacs.app
 (global-set-key (kbd "<home>") 'beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
