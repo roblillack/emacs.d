@@ -344,6 +344,18 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 (define-key isearch-mode-map (kbd "<escape>") 'isearch-abort)
 
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)
+(global-set-key (kbd "M-<delete>") 'delete-window)
+(global-set-key (kbd "M-<backspace>") 'delete-window)
+(global-set-key (kbd "M-<space>") 'split-window-horizontally)
+(global-set-key (kbd "M-<insert>") 'split-window-horizontally)
+(global-set-key (kbd "M-+") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-=") 'enlarge-window-horizontally)
+(global-set-key (kbd "M--")  'shrink-window-horizontally)
+(global-set-key (kbd "S-M-<insert>")  'split-window-vertically)
 
 (global-set-key "\C-j" 'imenu)
 
