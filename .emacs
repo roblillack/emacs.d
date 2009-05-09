@@ -131,7 +131,7 @@
 
 
 ; eeePC? try some smaller fonts
-(when (string-match "^brutus" system-name) 
+(when (string-match "^brutus" system-name)
   (custom-set-faces
    '(default ((t (:height 75))))
    '(mode-line ((t (:height 60))))))
@@ -189,14 +189,14 @@
 (defun toggle-show-trailing-whitespace ()
   "Toggle the display of trailing whitespace, by changing the
 buffer-local variable `show-trailing-whitespace'."
-  (interactive)   
+  (interactive)
   (save-excursion
     (setq show-trailing-whitespace
           (not show-trailing-whitespace))
     (redraw-display)
     (message (concat "Display of trailing whitespace "
                      (if show-trailing-whitespace
-                         "enabled" "disabled")))))   
+                         "enabled" "disabled")))))
 
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
@@ -391,6 +391,8 @@ buffer-local variable `show-trailing-whitespace'."
             (define-key php-mode-map (kbd "C-.") nil)))
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;(autoload 'twitter-get-friends-timeline "twitter" nil t)
 ;(autoload 'twitter-status-edit "twitter" nil t)
