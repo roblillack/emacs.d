@@ -419,6 +419,8 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key [f3] 'bufferlist)
 (global-set-key [f4] 'kill-buffer-and-window)
 
+; my bufferlist rocks, but sometimes i'm in the mood for ...
+(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 
 ;; ruby
 ;(add-to-list 'auto-mode-alist '("\\.rb" . ruby-mode))
