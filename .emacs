@@ -116,14 +116,14 @@
                       :box nil :strike-through nil :overline nil
                       :underline nil :slant normal :weight normal
                       :width normal))
-            (((type ns)) (:height 100 :family "monaco"))
+            (((type ns)) (:height 120 :family "monaco"))
             (t (:height 90 :family "DejaVu Sans Mono"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
  '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
-              (((type ns)) (:height 105 :family "Helvetica"))
+              (((type ns)) (:height 140 :family "Helvetica"))
               (t (:height 80 :family "sans"))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
