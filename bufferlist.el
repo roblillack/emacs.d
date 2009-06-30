@@ -63,6 +63,7 @@
   (interactive)
   (setq bufferlist-list '())
   (setq bufferlist-background nil)
+  ; temporarily turn off global hl-line-mode
   (when global-hl-line-mode
     (setq bufferlist-global-hl-line-mode t)
     (global-hl-line-mode -1))

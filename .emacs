@@ -139,11 +139,11 @@
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
 (blink-cursor-mode t)                                 ; und blinken
-(global-hl-line-mode (if (window-system) 1 -1))       ; aktive zeile markieren
+(global-hl-line-mode (if window-system 1 -1))         ; aktive zeile markieren
 (set-face-background 'hl-line "#eeeef8")              ; ... und lachsfarben anmalen
 (show-paren-mode t)                                   ; klammern markieren
 (setq paren-match-face 'paren-face-match-light)       ; ... die benutzte farbe setzen
-(when (window-system)
+(when window-system
   (setq show-paren-style 'expression))                ; ... den kompletten content markieren
 (custom-set-faces
  '(show-paren-match-face
@@ -151,8 +151,8 @@
 (setq parse-sexp-ignore-comments t)                   ; ignore comments when balancing stuff
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
-(require 'linum)                                      ; wir setzen das jetzt mal voraus
-(global-linum-mode (if (window-system) 1 -1))         ; ... wir wollen zeilennummern, falls GUI
+(if (require 'linum nil t)                                      ; wir setzen das jetzt mal voraus
+    (global-linum-mode (if window-system 1 -1)))           ; ... wir wollen zeilennummern, falls GUI
 (display-time-mode t)                                 ; uhrzeit anzeigen
 (size-indication-mode t)                              ; groesse des files anzeigen
 (add-hook 'c-mode-common-hook
@@ -271,7 +271,7 @@ buffer-local variable `show-trailing-whitespace'."
 		  0 0)
   (newline-and-indent)
   (newline-and-indent))
-(when (window-system)
+(when window-system
   (add-hook 'after-init-hook 'emacs-reloaded))
 
 
