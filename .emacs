@@ -121,7 +121,6 @@
             (t (:height 90 :family "DejaVu Sans Mono"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
- '(linum ((t (:foreground "#555555" :background "#eeeeee"))))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 140 :family "Helvetica"))
@@ -131,6 +130,8 @@
                                 :background "#dddddd"
                                 :foreground "#777777"
                                 :box (:line-width 1)))))
+ '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
+ '(linum ((default (:inherit fringe))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
  '(font-lock-variable-name-face ((t (:foreground "#993333")))))
