@@ -150,8 +150,6 @@
 (setq parse-sexp-ignore-comments t)                   ; ignore comments when balancing stuff
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
-(if (require 'linum nil t)                                      ; wir setzen das jetzt mal voraus
-    (global-linum-mode (if window-system 1 -1)))           ; ... wir wollen zeilennummern, falls GUI
 (display-time-mode t)                                 ; uhrzeit anzeigen
 (size-indication-mode t)                              ; groesse des files anzeigen
 (add-hook 'c-mode-common-hook
@@ -343,6 +341,7 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key (kbd "C-<kp-delete>") 'kill-word)
 (global-set-key (kbd "<backspace>") 'delete-backward-char)
 (global-set-key (kbd "C-<backspace>") 'backward-kill-word)
+(global-set-key (kbd "C-w") 'backward-kill-word)
 
 ; Suchen
 (global-set-key "\C-s" 'isearch-forward-regexp)
@@ -352,6 +351,7 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 (define-key isearch-mode-map (kbd "<escape>") 'isearch-abort)
 
+; moving in panes/„windows“
 (global-set-key (kbd "M-<left>") 'windmove-left)
 (global-set-key (kbd "M-<right>") 'windmove-right)
 (global-set-key (kbd "M-<up>") 'windmove-up)
@@ -408,6 +408,7 @@ buffer-local variable `show-trailing-whitespace'."
 
 (add-hook 'php-mode-hook
           (lambda ()
+            (c-set-style "user")
             (define-key php-mode-map (kbd "C-.") nil)))
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
@@ -422,6 +423,11 @@ buffer-local variable `show-trailing-whitespace'."
 ;(require 'w3m-load)
 
 (require 'bufferlist)
+
+; line numbering
+; wget http://stud4.tuwien.ac.at/~e0225855/linum/linum.el
+(require 'linum)
+(global-linum-mode (if window-system 1 -1))
 
 (global-set-key [f2] 'global-linum-mode)
 (global-set-key [f3] 'bufferlist)
