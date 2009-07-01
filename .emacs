@@ -184,6 +184,15 @@
 (add-hook 'c-mode-common-hook
           (lambda () (c-subword-mode t)))             ; CamelCase als EinzelWorte
 
+; copy'n'paste behaviour
+(when (eq window-system 'x)
+  (setq mouse-drag-copy-region nil)                   ; mouse selection does NOT go into kill ring
+  (setq x-select-enable-primary nil)                  ; NO killing/yanking with with primary X11 selection
+  (setq x-select-enable-clipboard t)                  ; killing/yanking with clipboard X11 selection
+  (setq select-active-regions t)                      ; active region sets primary X11 selection
+  (when (>= emacs-major-version 23)
+    (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
+
 
 (defun toggle-show-trailing-whitespace ()
   "Toggle the display of trailing whitespace, by changing the
@@ -259,7 +268,6 @@ buffer-local variable `show-trailing-whitespace'."
 
 (setq backup-by-copying-when-linked t)
 (setq backup-by-copying-when-mismatch t)
-(setq x-select-enable-clipboard t)
 (setq frame-title-format "%b — Emacs")
 
 (defconst animate-n-steps 5)
