@@ -138,7 +138,7 @@ and you have to scroll or press C-l to update the numbers."
                    ((eq linum-format 'dynamic)
                     (let ((w (length (number-to-string
                                       (count-lines (point-min) (point-max))))))
-                      (concat "%" (number-to-string w) "d")))))
+                      (concat " %" (number-to-string w) "d")))))
         (width 0))
     (run-hooks 'linum-before-numbering-hook)
     ;; Create an overlay (or reuse an existing one) for each
