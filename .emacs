@@ -331,7 +331,55 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[5;5~") (kbd "<C-prior>"))
 (define-key key-translation-map (kbd "\e[5;6~") (kbd "<C-next>"))
 
-; Emacs.app
+; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
+(defun delete-word (arg)
+  "Delete characters forward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+
+(defun backward-delete-word (arg)
+  "Delete characters backward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-word (- arg)))
+
+; stolen from simple.el
+(defun delete-line (arg)
+  "Deletes the rest of the rest of the current line
+the same way `kill-line' does (including the interpretation
+of `kill-whole-line'."
+  (interactive "p")
+  (delete-region (point)
+                 ;; It is better to move point to the other end of the kill
+                 ;; before killing.  That way, in a read-only buffer, point
+                 ;; moves across the text that is copied to the kill ring.
+                 ;; The choice has no effect on undo now that undo records
+                 ;; the value of point from before the command was run.
+                 (progn
+                   (if arg
+                       (forward-visible-line (prefix-numeric-value arg))
+                     (if (eobp)
+                         (signal 'end-of-buffer nil))
+                     (let ((end
+                            (save-excursion
+                              (end-of-visible-line) (point))))
+                       (if (or (save-excursion
+                                 ;; If trailing whitespace is visible,
+                                 ;; don't treat it as nothing.
+                                 (unless show-trailing-whitespace
+                                   (skip-chars-forward " \t" end))
+                                 (= (point) end))
+                               (and kill-whole-line (bolp)))
+                           (forward-visible-line 1)
+                         (goto-char end))))
+                   (point))))
+
+(dolist (cmd
+ '(delete-word backward-delete-word delete-line))
+  (put cmd 'CUA 'move)
+)
+
 (global-set-key (kbd "<home>") 'beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
 (global-set-key (kbd "C-<home>") 'beginning-of-buffer)
@@ -339,10 +387,12 @@ buffer-local variable `show-trailing-whitespace'."
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
 ;(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
-(global-set-key (kbd "C-<kp-delete>") 'kill-word)
+(global-set-key (kbd "C-<kp-delete>") 'delete-word)
 (global-set-key (kbd "<backspace>") 'delete-backward-char)
-(global-set-key (kbd "C-<backspace>") 'backward-kill-word)
-(global-set-key (kbd "C-w") 'backward-kill-word)
+(global-set-key (kbd "C-<backspace>") 'backward-delete-word)
+(global-set-key (kbd "C-w") 'backward-delete-word)
+(global-set-key (kbd "C-k") 'delete-line)
+(global-set-key (kbd "S-C-k") 'kill-line)
 
 ; Suchen
 (global-set-key "\C-s" 'isearch-forward-regexp)
