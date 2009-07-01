@@ -429,7 +429,8 @@ buffer-local variable `show-trailing-whitespace'."
 (require 'linum)
 (global-linum-mode (if window-system 1 -1))
 
-(global-set-key [f2] 'global-linum-mode)
+(global-set-key [f2] 'linum-mode)
+(global-set-key (kbd "S-<f2>") 'global-linum-mode)
 (global-set-key [f3] 'bufferlist)
 (global-set-key [f4] 'kill-buffer-and-window)
 
