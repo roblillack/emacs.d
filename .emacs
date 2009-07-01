@@ -123,7 +123,7 @@
  '(trailing-whitespace ((t :background "#ffffee")))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
-              (((type ns)) (:height 140 :family "Helvetica"))
+              (((type ns)) (:height 120 :family "sans"))
               (((type x)) (:height 70 :family "Helvetica"))
               (t (:height 80 :family "sans"))))
  '(modeline-inactive ((default (:inherit modeline
