@@ -427,8 +427,8 @@ buffer-local variable `show-trailing-whitespace'."
 
 ; line numbering
 ; wget http://stud4.tuwien.ac.at/~e0225855/linum/linum.el
-(require 'linum)
-(global-linum-mode (if window-system 1 -1))
+(autoload 'linum-mode "linum" nil t)
+(autoload 'global-linum-mode "linum" nil t)
 
 (global-set-key [f2] 'linum-mode)
 (global-set-key (kbd "S-<f2>") 'global-linum-mode)
