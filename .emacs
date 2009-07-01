@@ -117,6 +117,7 @@
                       :underline nil :slant normal :weight normal
                       :width normal))
             (((type ns)) (:height 120 :family "monaco"))
+            (((type x)) (:height 95 :family "fixed"))
             (t (:height 90 :family "DejaVu Sans Mono"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
@@ -124,17 +125,15 @@
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 140 :family "Helvetica"))
+              (((type x)) (:height 70 :family "Helvetica"))
               (t (:height 80 :family "sans"))))
+ '(modeline-inactive ((default (:inherit modeline
+                                :background "#dddddd"
+                                :foreground "#777777"
+                                :box (:line-width 1)))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
  '(font-lock-variable-name-face ((t (:foreground "#993333")))))
-
-
-; eeePC? try some smaller fonts
-(when (string-match "^brutus" system-name)
-  (custom-set-faces
-   '(default ((t (:height 75))))
-   '(mode-line ((t (:height 60))))))
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
