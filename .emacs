@@ -134,7 +134,8 @@
  '(linum ((default (:inherit fringe))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
- '(font-lock-variable-name-face ((t (:foreground "#993333")))))
+ '(font-lock-variable-name-face ((t (:foreground "#993333"))))
+ '(font-lock-string-face ((t (:foreground "#dd2200" :background "#ffefef")))))
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
