@@ -113,12 +113,55 @@
 ;; Local variables
 (defgroup php nil
   "Major mode `php-mode' for editing PHP code."
+  :link '(emacs-library-link :tag "Source Lisp File" "php-mode.el")
   :prefix "php-"
+  :group 'faces
   :group 'languages)
 
 (defcustom php-default-face 'default
   "Default face in `php-mode' buffers."
   :type 'face
+  :group 'php)
+
+(defcustom php-variable-marker-face 'php-variable-marker-face
+  "Default face in `php-mode' buffers."
+  :type 'face
+  :group 'php)
+
+(defcustom php-type-access-face 'php-type-access-face
+  "Default face in `php-mode' buffers."
+  :type 'face
+  :group 'php)
+
+(defcustom php-property-name-face 'php-property-name-face
+  "Default face in `php-mode' buffers."
+  :type 'face
+  :group 'php)
+
+(defcustom php-sexp-face 'php-sexp-face
+  "Default face in `php-mode' buffers."
+  :type 'face
+  :group 'php)
+
+(defface php-sexp-face
+  '((((background light)) (:background "LightGray"))
+    (((background dark)) (:background "DimGray")))
+  "Face used to highlight a SubExpression embedded into a PHP string."
+  :group 'php)
+
+(defface php-variable-marker-face
+  '(((default (:foreground "Blue"))))
+  "Face used to highlight the marker ($) of PHP variables."
+  :group 'php)
+
+(defface php-type-access-face
+  '(((default (:foreground "Blue"))))
+  "Face used to hightlight the access marker (:: or ->) of PHP object and classes."
+  :group 'php)
+
+(defface php-property-name-face
+  '(((default (:foreground "Black"))))
+  "Face used to highlight properties of accesses PHP variables."
   :group 'php)
 
 (defcustom php-speedbar-config t
@@ -315,7 +358,7 @@ See `php-beginning-of-defun'."
   (set (make-local-variable 'c-opt-cpp-prefix) php-tags-key)
 
   (c-set-offset 'cpp-macro 0)
-  
+
 ;;   (c-lang-defconst c-block-stmt-1-kwds php php-block-stmt-1-kwds)
 ;;   (c-lang-defvar c-block-stmt-1-kwds (c-lang-const c-block-stmt-1-kwds))
   (set (make-local-variable 'c-block-stmt-1-key) php-block-stmt-1-key)
@@ -1080,12 +1123,27 @@ current `tags-file-name'."
     `(,(concat "[(,]\\s-*\\(\\sw+\\)\\s-+&?\\$\\sw+\\>")
       1 font-lock-type-face)
 
+    ;; subexpressions embedded into strings
+    '("{[a-zA-Z0-9_>:$-]+}" (0 php-sexp-face t))
+
+    ;; part one: "... {$variable} ..."
+    '("\\(\\(\\$\\)[a-zA-Z0-9_]+\\)"
+      (1 font-lock-variable-name-face prepend)
+      (2 php-variable-marker-face prepend))
+
+    ;; part two: "... {$object->property} ..."
+    '("\\(\\(\\$\\)[a-zA-Z0-9_]+\\)\\(?:\\(->\\|::\\)\\([a-zA-Z0-9_]+\\)\\)+\\>[^(]"
+      (1 font-lock-variable-name-face prepend)
+      (2 php-variable-marker-face prepend)
+      (3 php-type-access-face prepend)
+      (4 php-property-name-face prepend))
+
     ;; Fontify variables and function calls
     '("\\$\\(this\\|that\\)\\W" (1 font-lock-constant-face nil nil))
     `(,(concat "\\$\\(" php-superglobals "\\)\\W")
       (1 font-lock-constant-face nil nil)) ;; $_GET & co
-    '("\\$\\(\\sw+\\)" (1 font-lock-variable-name-face)) ;; $variable
-    '("->\\(\\sw+\\)" (1 font-lock-variable-name-face t t)) ;; ->variable
+    ;'("\\$\\(\\sw+\\)" (1 font-lock-variable-name-face)) ;; $variable
+    ;'("->\\(\\sw+\\)" (1 font-lock-variable-name-face t t)) ;; ->variable
     '("->\\(\\sw+\\)\\s-*(" . (1 php-default-face t t)) ;; ->function_call
     '("\\(\\sw+\\)::\\sw+\\s-*(?" . (1 font-lock-type-face)) ;; class::member
     '("::\\(\\sw+\\>[^(]\\)" . (1 php-default-face)) ;; class::constant
@@ -1093,10 +1151,9 @@ current `tags-file-name'."
     '("\\<[0-9]+" . php-default-face) ;; number (also matches word)
 
     ;; Warn on any words not already fontified
-    '("\\<\\sw+\\>" . font-lock-warning-face)
+    '("\\<\\sw+\\>" . font-lock-warning-face)))
 
-    ))
-  "Gauchy level highlighting for PHP mode.")
+    "Gauchy level highlighting for PHP mode.")
 
 (provide 'php-mode)
 

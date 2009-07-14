@@ -134,8 +134,15 @@
  '(linum ((default (:inherit fringe))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
- '(font-lock-variable-name-face ((t (:foreground "#993333"))))
- '(font-lock-string-face ((t (:foreground "#dd2200" :background "#ffefef")))))
+ ;'(font-lock-variable-name-face ((t (:foreground "#993333"))))
+ '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
+
+ '(font-lock-variable-name-face ((default (:foreground "#990000"))))
+ '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
+ '(php-variable-marker-face ((default (:foreground "#333399"))))
+ '(php-property-name-face ((default (:foreground "#339933"))))
+ '(php-type-access-face ((default (:foreground "#555577"))))
+)
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
