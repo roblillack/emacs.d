@@ -393,6 +393,7 @@ of `kill-whole-line'."
 (global-set-key (kbd "C-<home>") 'beginning-of-buffer)
 (global-set-key (kbd "C-<end>") 'end-of-buffer)
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
+(global-set-key (kbd "C-x C-n") 'new-frame)
 ;(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
 (global-set-key (kbd "C-<kp-delete>") 'delete-word)
