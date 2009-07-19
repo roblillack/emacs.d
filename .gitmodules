@@ -1,0 +1,3 @@
+[submodule "plugins/clojure-mode"]
+	path = plugins/clojure-mode
+	url = git://github.com/jochu/clojure-mode.git

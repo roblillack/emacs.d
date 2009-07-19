@@ -460,6 +460,10 @@ of `kill-whole-line'."
 (org-clock-persistence-insinuate)
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
 
+; Clojure support
+(autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
+(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+
 ; PHP support
 (autoload 'php-mode "php-mode" "PHP editing mode" t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
