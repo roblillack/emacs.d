@@ -200,6 +200,12 @@
   (when (>= emacs-major-version 23)
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
+; shortcuts for font scaling
+(global-set-key [(control mouse-4)] 'text-scale-increase)
+(global-set-key [(control mouse-5)] 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 
 (defun toggle-show-trailing-whitespace ()
   "Toggle the display of trailing whitespace, by changing the
