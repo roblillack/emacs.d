@@ -233,6 +233,19 @@ buffer-local variable `show-trailing-whitespace'."
 (setq backup-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/backups")))
       auto-save-default nil)
 
+; edit as root
+(defun sudo-edit (&optional arg)
+  (interactive "p")
+  (if arg
+      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defun sudo-edit-current-file ()
+  (interactive)
+  (find-alternate-file (concat "/sudo:root@localhost:" (buffer-file-name (current-buffer)))))
+
+(global-set-key (kbd "C-x !") 'sudo-edit-current-file)
+
 (setq mumamo-chunk-coloring 'submode-colored
       nxhtml-skip-welcome t
       indent-region-mode t
