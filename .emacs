@@ -206,6 +206,8 @@
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-<kp-add>") 'text-scale-increase)
+(global-set-key (kbd "C-<kp-subtract>") 'text-scale-decrease)
 
 (defun toggle-show-trailing-whitespace ()
   "Toggle the display of trailing whitespace, by changing the
@@ -218,6 +220,8 @@ buffer-local variable `show-trailing-whitespace'."
     (message (concat "Display of trailing whitespace "
                      (if show-trailing-whitespace
                          "enabled" "disabled")))))
+
+
 
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
