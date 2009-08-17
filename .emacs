@@ -432,6 +432,9 @@ depending on the current position."
 (global-set-key (kbd "S-M-<delete>") 'delete-other-windows)
 (global-set-key (kbd "S-M-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "M-<space>") 'split-window-horizontally)
+(global-set-key (kbd "M-SPC") 'split-window-horizontally)
+(global-set-key (kbd "S-M-<space>") 'split-window-vertically)
+(global-set-key (kbd "S-M-SPC") 'split-window-vertically)
 (global-set-key (kbd "M-<insert>") 'split-window-horizontally)
 (global-set-key (kbd "M-=") 'enlarge-window-horizontally)
 (global-set-key (kbd "M--")  'shrink-window-horizontally)
@@ -439,7 +442,7 @@ depending on the current position."
 (global-set-key (kbd "M-_") 'shrink-window)
 (global-set-key (kbd "S-M-<insert>")  'split-window-vertically)
 
-(global-set-key "\C-j" 'imenu)
+(global-set-key (kbd "C-j") 'imenu)
 
 (global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
 ;(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
