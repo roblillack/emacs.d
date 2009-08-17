@@ -352,36 +352,16 @@ With argument, do this that many times."
   (interactive "p")
   (delete-word (- arg)))
 
-; stolen from simple.el
-(defun delete-line (arg)
-  "Deletes the rest of the rest of the current line
-the same way `kill-line' does (including the interpretation
-of `kill-whole-line'."
-  (interactive "p")
-  (delete-region (point)
-                 ;; It is better to move point to the other end of the kill
-                 ;; before killing.  That way, in a read-only buffer, point
-                 ;; moves across the text that is copied to the kill ring.
-                 ;; The choice has no effect on undo now that undo records
-                 ;; the value of point from before the command was run.
-                 (progn
-                   (if arg
-                       (forward-visible-line (prefix-numeric-value arg))
-                     (if (eobp)
-                         (signal 'end-of-buffer nil))
-                     (let ((end
-                            (save-excursion
-                              (end-of-visible-line) (point))))
-                       (if (or (save-excursion
-                                 ;; If trailing whitespace is visible,
-                                 ;; don't treat it as nothing.
-                                 (unless show-trailing-whitespace
-                                   (skip-chars-forward " \t" end))
-                                 (= (point) end))
-                               (and kill-whole-line (bolp)))
-                           (forward-visible-line 1)
-                         (goto-char end))))
-                   (point))))
+
+(defun delete-line ()
+  "Deletes the rest of the rest of the current line,
+deletes the whole line, or joins with the following line
+depending on the current position."
+  (interactive)
+  (let ((end (save-excursion (end-of-visible-line) (point))))
+    (if (eq (point) end)
+        (delete-char 1)
+      (delete-region (point) end))))
 
 (dolist (cmd
  '(delete-word backward-delete-word delete-line))
