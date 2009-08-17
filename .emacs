@@ -200,6 +200,14 @@
   (when (>= emacs-major-version 23)
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
+; shortcuts for font scaling
+(global-set-key [(control mouse-4)] 'text-scale-increase)
+(global-set-key [(control mouse-5)] 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-<kp-add>") 'text-scale-increase)
+(global-set-key (kbd "C-<kp-subtract>") 'text-scale-decrease)
 
 (defun toggle-show-trailing-whitespace ()
   "Toggle the display of trailing whitespace, by changing the
@@ -212,6 +220,8 @@ buffer-local variable `show-trailing-whitespace'."
     (message (concat "Display of trailing whitespace "
                      (if show-trailing-whitespace
                          "enabled" "disabled")))))
+
+
 
 ; merkt sich, wo wir in welchem file waren
 (require 'saveplace)
@@ -226,6 +236,19 @@ buffer-local variable `show-trailing-whitespace'."
 
 (setq backup-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/backups")))
       auto-save-default nil)
+
+; edit as root
+(defun sudo-edit (&optional arg)
+  (interactive "p")
+  (if arg
+      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defun sudo-edit-current-file ()
+  (interactive)
+  (find-alternate-file (concat "/sudo:root@localhost:" (buffer-file-name (current-buffer)))))
+
+(global-set-key (kbd "C-x !") 'sudo-edit-current-file)
 
 (setq mumamo-chunk-coloring 'submode-colored
       nxhtml-skip-welcome t
@@ -406,11 +429,14 @@ depending on the current position."
 (global-set-key (kbd "M-<down>") 'windmove-down)
 (global-set-key (kbd "M-<delete>") 'delete-window)
 (global-set-key (kbd "M-<backspace>") 'delete-window)
+(global-set-key (kbd "S-M-<delete>") 'delete-other-windows)
+(global-set-key (kbd "S-M-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "M-<space>") 'split-window-horizontally)
 (global-set-key (kbd "M-<insert>") 'split-window-horizontally)
-(global-set-key (kbd "M-+") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-=") 'enlarge-window-horizontally)
 (global-set-key (kbd "M--")  'shrink-window-horizontally)
+(global-set-key (kbd "M-+") 'enlarge-window)
+(global-set-key (kbd "M-_") 'shrink-window)
 (global-set-key (kbd "S-M-<insert>")  'split-window-vertically)
 
 (global-set-key "\C-j" 'imenu)
