@@ -383,6 +383,14 @@ depending on the current position."
 (global-set-key (kbd "C-k") 'delete-line)
 (global-set-key (kbd "S-C-k") 'kill-line)
 
+(defun join-with-next-line ()
+  "Join the current and the following line."
+  (interactive)
+  (next-line)
+  (join-line))
+
+(global-set-key (kbd "M-j") 'join-with-next-line)
+
 ; Suchen
 (global-set-key "\C-s" 'isearch-forward-regexp)
 (global-set-key "\C-r" 'isearch-backward-regexp)
