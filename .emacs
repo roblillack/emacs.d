@@ -117,15 +117,15 @@
                       :underline nil :slant normal :weight normal
                       :width normal))
             (((type ns)) (:height 120 :family "monaco"))
-            (((type x)) (:height 95 :family "fixed"))
-            (t (:height 90 :family "DejaVu Sans Mono"))))
+            (((type x)) (:height 100 :family "Inconsolata"))
+            (t (:height 90 :family "fixed"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 120 :family "sans"))
-              (((type x)) (:height 70 :family "Helvetica"))
-              (t (:height 80 :family "sans"))))
+              (((type x)) (:height 75 :family "Bitstream Vera Sans"))
+              (t (:height 80 :family "Helvetica"))))
  '(modeline-inactive ((default (:inherit modeline
                                 :background "#dddddd"
                                 :foreground "#777777"
