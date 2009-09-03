@@ -116,14 +116,14 @@
                       :box nil :strike-through nil :overline nil
                       :underline nil :slant normal :weight normal
                       :width normal))
-            (((type ns)) (:height 120 :family "monaco"))
+            (((type ns)) (:height 110 :family "Menlo"))
             (((type x)) (:height 100 :family "Inconsolata"))
             (t (:height 90 :family "fixed"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
-              (((type ns)) (:height 120 :family "sans"))
+              (((type ns)) (:height 120 :family "Optima"))
               (((type x)) (:height 75 :family "Bitstream Vera Sans"))
               (t (:height 80 :family "Helvetica"))))
  '(modeline-inactive ((default (:inherit modeline
@@ -134,7 +134,6 @@
  '(linum ((default (:inherit fringe))))
  '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
- ;'(font-lock-variable-name-face ((t (:foreground "#993333"))))
  '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
 
  '(font-lock-variable-name-face ((default (:foreground "#990000"))))
