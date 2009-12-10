@@ -190,8 +190,7 @@
 (setq-default c-basic-offset 4)                       ; indent ist 4 zeichen breit
 (setq-default show-trailing-whitespace t)             ; whitespace am zeilenende zeigen
 (setq scroll-conservatively 3)                        ; bei max 3 zeilen scrollen ohne recenter
-(add-hook 'c-mode-common-hook
-          (lambda () (c-subword-mode t)))             ; CamelCase als EinzelWorte
+(global-subword-mode t)                               ; CamelCase als EinzelWorte
 
 ; copy'n'paste behaviour
 (when (eq window-system 'x)
