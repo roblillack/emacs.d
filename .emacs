@@ -487,6 +487,14 @@ depending on the current position."
 
 ; *** MAJOR MODES ***
 
+; send mails from mutt
+(add-to-list 'auto-mode-alist '("mutt-" . mail-mode))
+(add-hook 'mail-mode-hook (lambda ()
+                            (turn-on-auto-fill)
+                            (flush-lines "^\\(> \n\\)*> -- *\n\\(\n?> .*\\)*")
+                            (not-modified)
+                            (mail-text)))
+
 ; Org+Remember
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-to-list 'auto-mode-alist '("/org/.*$" . org-mode))
@@ -521,6 +529,12 @@ depending on the current position."
 ;            (flymake-mode t)))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; Don't break the signature separator!
+(add-hook 'mail-mode-hook
+          (lambda ()
+            (remove-hook 'before-save-hook 'delete-trailing-whitespace)))
+
 
 ;(autoload 'twitter-get-friends-timeline "twitter" nil t)
 ;(autoload 'twitter-status-edit "twitter" nil t)
