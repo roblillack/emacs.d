@@ -120,7 +120,9 @@
                       :underline nil :slant normal :weight normal
                       :width normal))
             (((type ns)) (:height 110 :family "Menlo"))
-            (((type x)) (:height 100 :family "Inconsolata"))
+            ; same dimensions
+            ;(((type x)) (:height 105 :family "Inconsolata")) ; 100
+            (((type x)) (:height 90 :family "DejaVu Sans Mono")) ; 85
             (t (:height 90 :family "fixed"))))
  '(fixed-pitch ((t nil)))
  '(trailing-whitespace ((t :background "#ffffee")))
