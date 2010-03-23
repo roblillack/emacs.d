@@ -242,14 +242,17 @@ buffer-local variable `show-trailing-whitespace'."
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (if arg
-      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+      (find-file (concat "/sudo::" (ido-read-file-name "File: ")))
+    (find-alternate-file (concat "/sudo::" buffer-file-name))))
 
 (defun sudo-edit-current-file ()
   (interactive)
-  (find-alternate-file (concat "/sudo:root@localhost:" (buffer-file-name (current-buffer)))))
+  (find-alternate-file (concat "/sudo::" (buffer-file-name (current-buffer)))))
 
 (global-set-key (kbd "C-x !") 'sudo-edit-current-file)
+
+(add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
+(add-to-list 'tramp-default-proxies-alist '((regexp-quote (system-name)) nil nil))
 
 (setq mumamo-chunk-coloring 'submode-colored
       nxhtml-skip-welcome t
