@@ -489,6 +489,11 @@ depending on the current position."
 ;(autoload 'git-blame-mode "git-blame"
 ;          "Minor mode for incremental blame for Git." t)
 
+; gitsum FTW!
+; see: http://github.com/chneukirchen/gitsum
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/gitsum"))
+(require 'gitsum)
+
 
 ; *** MAJOR MODES ***
 
