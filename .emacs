@@ -127,7 +127,7 @@
  '(mode-line ((default (:background "#5555aa" :foreground "white"
                   :box (:line-width 1 :style released-button)))
               (((type ns)) (:height 120 :family "Optima"))
-              (((type x)) (:height 75 :family "Bitstream Vera Sans"))
+              (((type x)) (:height 75 :family "sans"))
               (t (:height 80 :family "Helvetica"))))
  '(modeline-inactive ((default (:inherit modeline
                                 :background "#dddddd"
