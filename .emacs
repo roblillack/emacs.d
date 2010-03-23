@@ -7,6 +7,9 @@
 (setq *want-company* nil)
 (setq *want-gtags* nil)
 
+(when (eq system-type 'darwin)
+  (setenv "PATH" "/opt/local/bin:/bin:/usr/bin:/sbin:/usr/sbin"))
+
 ;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 ;    (let* ((my-lisp-dir "~/.emacs.d/plugins/")
 ;           (default-directory my-lisp-dir))
