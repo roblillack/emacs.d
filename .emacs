@@ -22,9 +22,11 @@
 ;  (load "init-byte-code-cache"))
 
 ;(require 'color-theme)
+
 ;(require 'slime)
 ;(slime-setup)
-;(setq inferior-lisp-program "sbcl")
+(setq inferior-lisp-program "sbcl")
+;(setq inferior-lisp-program "java -cp /home/rob/dev/clojure/clojure.jar clojure.main")
 
 ;(color-theme-clarity)
 ;(add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -507,11 +509,15 @@ depending on the current position."
 
 ; Org+Remember
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(add-to-list 'auto-mode-alist '("/org/.*$" . org-mode))
+;(add-to-list 'auto-mode-alist '("/org/.*$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-(setq org-agenda-files (list "~/org"))
+(setq org-agenda-files (list "~/org"
+                             "~/org/yasni"
+                             "~/org/yasni/architekturmeetings"))
+;(setq org-agenda-file-regexp "\\`[^.]+?\\'")
+(setq org-agenda-tags-column -120)
 (setq org-CUA-compatible t)
 (org-remember-insinuate)
 (setq org-directory "~/org")
