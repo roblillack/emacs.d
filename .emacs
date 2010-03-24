@@ -731,6 +731,19 @@ Otherwise, analyses point position and answers."
   (global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
   (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle))
 
+; fringe, scroll bars & margins
+(set-fringe-mode '(8 . 2))
+(set-scroll-bar-mode nil)
+(set-frame-parameter nil 'internal-border-width 0)
+(set-frame-parameter nil 'line-spacing 0)
+(set-frame-parameter nil 'scroll-bar-width 4)
+
+(defun setup-echo-area ()
+  (interactive)
+  (walk-windows (lambda (w) (when (window-minibuffer-p w)
+                              (set-window-fringes w 2 2 0))) t t))
+(add-hook 'window-configuration-change-hook 'setup-echo-area)
+
 ; highlight-symbol
 ; cd ~/.emacs.d/plugins
 ; wget http://nschum.de/src/emacs/highlight-symbol/highlight-symbol.el
