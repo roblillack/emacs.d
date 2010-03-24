@@ -3,6 +3,7 @@
 (defvar bufferlist-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map [f3] 'kill-buffer-and-window)
+    (define-key map [escape] 'kill-buffer-and-window)
     (define-key map [return] 'bufferlist-activate-buffer)
     (define-key map [delete] 'bufferlist-kill-buffer)
     (define-key map [deletechar] 'bufferlist-kill-buffer)
