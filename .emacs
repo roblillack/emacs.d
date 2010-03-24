@@ -742,6 +742,8 @@ Otherwise, analyses point position and answers."
 (global-set-key (kbd "C-<") '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
 (global-set-key (kbd "C->") '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
 (global-set-key [(control shift mouse-1)] 'highlight-symbol-mouse-toggle)
+(global-set-key [(control shift mouse-4)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
+(global-set-key [(control shift mouse-5)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
 
 ; ruby
 ; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
