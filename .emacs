@@ -545,13 +545,11 @@ depending on the current position."
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 ; Don't break the signature separator!
-(add-hook 'mail-mode-hook
+(add-hook 'before-save-hook
           (lambda ()
-            (remove-hook 'before-save-hook 'delete-trailing-whitespace)))
-
+            (unless (eq major-mode 'mail-mode)
+              (delete-trailing-whitespace))))
 
 ;(autoload 'twitter-get-friends-timeline "twitter" nil t)
 ;(autoload 'twitter-status-edit "twitter" nil t)
