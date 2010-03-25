@@ -55,11 +55,10 @@
                                 (foreground-color . "#000000")
                                 (background-color . "#00ffff"))))
   (put-text-property (point) (1+ (point-at-eol))
-                     'face '((:weight bold) (:box 1)
+                     'face '((:weight bold)
                              (foreground-color . "#ffffff")
                              (background-color . "#ff0000")))
-  (setq buffer-read-only t)
-)
+  (setq buffer-read-only t))
 
 (defun bufferlist-move-up ()
   (interactive)
