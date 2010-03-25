@@ -736,6 +736,8 @@ Otherwise, analyses point position and answers."
 (set-frame-parameter nil 'internal-border-width 0)
 (set-frame-parameter nil 'line-spacing 0)
 (set-frame-parameter nil 'scroll-bar-width 4)
+(set-default 'indicate-empty-lines t)
+(set-default 'indicate-buffer-boundaries '((up . left) (down . left) (t . nil)))
 
 (defun setup-echo-area ()
   (interactive)
