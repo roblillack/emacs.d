@@ -329,10 +329,8 @@ buffer-local variable `show-trailing-whitespace'."
 ;; http://www.emacswiki.org/cgi-bin/wiki/FullScreen
 (defun toggle-fullscreen ()
   (interactive)
-  (if (eq system-type 'darwin)
-      (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
-                                               nil
-                                             'fullboth))
+  (if (eq (window-system) 'ns)
+      (ns-toggle-fullscreen)
     (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
                            '(2 "_NET_WM_STATE_FULLSCREEN" 0))))
 (global-set-key [(super return)] 'toggle-fullscreen)
