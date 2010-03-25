@@ -255,6 +255,7 @@ buffer-local variable `show-trailing-whitespace'."
 
 (global-set-key (kbd "C-x !") 'sudo-edit-current-file)
 
+(require 'tramp)
 (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
 (add-to-list 'tramp-default-proxies-alist '((regexp-quote (system-name)) nil nil))
 
