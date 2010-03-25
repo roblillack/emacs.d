@@ -203,6 +203,8 @@
   (setq x-select-enable-clipboard t)                  ; killing/yanking with clipboard X11 selection
   (setq select-active-regions t)                      ; active region sets primary X11 selection
   (when (>= emacs-major-version 23)
+    (global-set-key [mouse-8] 'mouse-yank-primary)    ; use them crazy mouse buttons!
+    (global-set-key [mouse-9] 'mouse-yank-primary)    ; indeed.
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
 ; shortcuts for font scaling
