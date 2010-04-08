@@ -565,6 +565,19 @@ depending on the current position."
 (autoload 'linum-mode "linum" nil t)
 (autoload 'global-linum-mode "linum" nil t)
 
+; whitespace-mode
+(setq whitespace-display-mappings
+      '((space-mark 32 [183] [46])
+        (space-mark 160 [164] [95])
+        (space-mark 2208 [2212] [95])
+        (space-mark 2336 [2340] [95])
+        (space-mark 3616 [3620] [95])
+        (space-mark 3872 [3876] [95])
+        (newline-mark 10 [8629 10])
+        (tab-mark 9 [9654 9] [92 9])))
+
+(global-set-key [f1] 'whitespace-mode)
+(global-set-key (kbd "S-<f1>") 'global-whitespace-mode)
 (global-set-key [f2] 'linum-mode)
 (global-set-key (kbd "S-<f2>") 'global-linum-mode)
 (global-set-key [f3] 'bufferlist)
