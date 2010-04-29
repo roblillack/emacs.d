@@ -207,6 +207,14 @@
     (global-set-key [mouse-9] 'mouse-yank-primary)    ; indeed.
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
+; mouse quits minibuffer
+; from http://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (>= (recursion-depth) 1)
+    (abort-recursive-edit)))
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
 ; shortcuts for font scaling
 (global-set-key [(control mouse-4)] 'text-scale-increase)
 (global-set-key [(control mouse-5)] 'text-scale-decrease)
