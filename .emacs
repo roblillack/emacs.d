@@ -573,6 +573,13 @@ depending on the current position."
 (autoload 'linum-mode "linum" nil t)
 (autoload 'global-linum-mode "linum" nil t)
 
+; turn on tempbuf mode for some types of buffers
+; cd ~/.emacs.d/plugins && wget http://www.emacswiki.org/emacs/download/tempbuf.el
+(require 'tempbuf)
+(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
+
 ; whitespace-mode
 (setq whitespace-display-mappings
       '((space-mark 32 [183] [46])
