@@ -6,6 +6,7 @@
 (setq *want-semantic* nil)
 (setq *want-company* nil)
 (setq *want-gtags* nil)
+(setq *want-ac* t)
 
 (when (eq system-type 'darwin)
   (setenv "PATH" "/opt/local/bin:/bin:/usr/bin:/sbin:/usr/sbin"))
@@ -505,6 +506,20 @@ depending on the current position."
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/gitsum"))
 (require 'gitsum)
 
+; auto-complete mode
+(when *want-ac*
+  (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/auto-complete"))
+  (require 'auto-complete-config)
+  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/plugins/auto-complete/ac-dict"))
+  (ac-config-default)
+  (define-key ac-completing-map [tab] 'ac-expand)
+  (define-key ac-completing-map [escape] 'ac-stop)
+  (setq ac-use-quick-help t)
+  (setq ac-ignore-case t)
+  (setq ac-use-fuzzy t)
+  (setq ac-trigger-key nil)
+  (setq ac-dwim t)
+  (setq ac-auto-show-menu nil))
 
 ; *** MAJOR MODES ***
 
@@ -702,9 +717,9 @@ depending on the current position."
 using `company-mode' or `hippie-expand'."
   (interactive)
   (unless (yas/expand)
-    (if *want-company*
-        (call-interactively 'company-start-showing)
-      (call-interactively 'hippie-expand))))
+    (cond (*want-company* (call-interactively 'company-start-showing))
+          (*want-ac* (call-interactively 'auto-complete))
+          (t (call-interactively 'hippie-expand)))))
 ;      (if (functionp 'complete-word-at-point)
 ;          (complete-word-at-point)
 ;        (hippie-expand)))))
