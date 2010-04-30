@@ -579,6 +579,7 @@ depending on the current position."
 (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
 (add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
 (add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'WoMan-mode-hook 'turn-on-tempbuf-mode)
 
 ; whitespace-mode
 (setq whitespace-display-mappings
