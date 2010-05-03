@@ -510,7 +510,7 @@ depending on the current position."
 (when *want-ac*
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/auto-complete"))
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/plugins/auto-complete/ac-dict"))
+  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/plugins/auto-complete/dict"))
   (ac-config-default)
   (define-key ac-completing-map [tab] 'ac-expand)
   (define-key ac-completing-map [escape] 'ac-stop)
@@ -519,7 +519,12 @@ depending on the current position."
   (setq ac-use-fuzzy t)
   (setq ac-trigger-key nil)
   (setq ac-dwim t)
-  (setq ac-auto-show-menu nil))
+  (setq ac-auto-start nil)
+
+  (setq-default ac-sources '(ac-source-dictionary
+                             ac-source-filename
+                             ac-source-imenu
+                             ac-source-words-in-same-mode-buffers)))
 
 ; *** MAJOR MODES ***
 
@@ -720,9 +725,6 @@ using `company-mode' or `hippie-expand'."
     (cond (*want-company* (call-interactively 'company-start-showing))
           (*want-ac* (call-interactively 'auto-complete))
           (t (call-interactively 'hippie-expand)))))
-;      (if (functionp 'complete-word-at-point)
-;          (complete-word-at-point)
-;        (hippie-expand)))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
