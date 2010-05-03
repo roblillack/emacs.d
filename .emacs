@@ -5,10 +5,10 @@
 
 (setq *want-semantic* nil)
 (setq *want-company* nil)
-(setq *want-gtags* nil)
+(setq *want-gtags* t)
 (setq *want-ac* t)
 
-(when (eq system-type 'darwin)
+(when *is-a-mac*
   (setenv "PATH" "/opt/local/bin:/bin:/usr/bin:/sbin:/usr/sbin"))
 
 ;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
@@ -485,7 +485,20 @@ depending on the current position."
 (global-set-key (kbd "s-_") 'shrink-window)
 (global-set-key (kbd "S-s-<insert>")  'split-window-vertically)
 
+; Use imenu to jump to definitions in current file
 (global-set-key (kbd "C-j") 'imenu)
+
+; Use GNU Global for project global jumps
+(when *want-gtags*
+  (require 'gtags)
+  (dolist (hook '(c-mode-hook
+                  php-mode-hook
+                  emacs-lisp-hook
+                  lisp-mode-hook))
+    (add-hook hook
+              '(lambda ()
+                 (gtags-mode t))))
+  (global-set-key (kbd "C-S-j") 'gtags-find-tag))
 
 (global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
 ;(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
@@ -523,6 +536,7 @@ depending on the current position."
 
   (setq-default ac-sources '(ac-source-dictionary
                              ac-source-filename
+                             ac-source-gtags
                              ac-source-imenu
                              ac-source-words-in-same-mode-buffers)))
 
@@ -742,19 +756,6 @@ Otherwise, analyses point position and answers."
     (looking-at "\\_>")))
 
 (global-set-key [tab] 'smart-tab)
-
-(when *want-gtags*
-  (require 'gtags)
-  (dolist (hook '(c-mode-hook
-                  php-mode-hook
-                  emacs-lisp-hook
-                  lisp-mode-hook))
-    (add-hook hook
-              '(lambda ()
-                 (gtags-mode t))))
-  (global-set-key (kbd "C-j") 'gtags-find-tag)
-;(global-set-key (kbd "C-j left") 'gtags-pop-stack)
-)
 
 ; bookmarks
 ; cd ~/.emacs.d/plugins
