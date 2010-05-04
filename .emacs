@@ -208,17 +208,11 @@
     (global-set-key [mouse-9] 'mouse-yank-primary)    ; indeed.
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
-; mouse quits minibuffer
-; from http://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
-(defun stop-using-minibuffer ()
-  "kill the minibuffer"
-  (when (>= (recursion-depth) 1)
-    (abort-recursive-edit)))
-(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
-
 ; shortcuts for font scaling
 (global-set-key [(control mouse-4)] 'text-scale-increase)
 (global-set-key [(control mouse-5)] 'text-scale-decrease)
+(global-set-key [(control wheel-up)] 'text-scale-increase)
+(global-set-key [(control wheel-down)] 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -379,6 +373,9 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[6~") (kbd "<next>"))
 (define-key key-translation-map (kbd "\e[5;5~") (kbd "<C-prior>"))
 (define-key key-translation-map (kbd "\e[5;6~") (kbd "<C-next>"))
+
+(define-key key-translation-map (kbd "\e[rC;BS~") (kbd "C-<backspace>"))
+(define-key key-translation-map (kbd "\e[rC;DEL~") (kbd "C-<delete>"))
 
 ; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
 (defun delete-word (arg)
@@ -798,6 +795,15 @@ Otherwise, analyses point position and answers."
                                                 (interactive)
                                                 (move-beginning-of-line nil)
                                                 (delete-line)))
+(define-key minibuffer-local-map [escape] 'abort-recursive-edit)
+
+; mouse quits minibuffer
+; from http://trey-jackson.blogspot.com/2010/04/emacs-tip-36-abort-minibuffer-when.html
+(defun stop-using-minibuffer ()
+  "kill the minibuffer"
+  (when (>= (recursion-depth) 1)
+    (abort-recursive-edit)))
+(add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ; highlight-symbol
 ; cd ~/.emacs.d/plugins
@@ -812,6 +818,8 @@ Otherwise, analyses point position and answers."
 (global-set-key [(control shift mouse-1)] 'highlight-symbol-mouse-toggle)
 (global-set-key [(control shift mouse-4)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
 (global-set-key [(control shift mouse-5)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
+(global-set-key [(control shift wheel-up)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
+(global-set-key [(control shift wheel-down)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
 
 ; ruby
 ; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
