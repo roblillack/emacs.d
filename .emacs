@@ -786,11 +786,18 @@ Otherwise, analyses point position and answers."
 (set-default 'indicate-empty-lines t)
 (set-default 'indicate-buffer-boundaries '((up . left) (down . left) (t . nil)))
 
+; no fringe for minibuffer
 (defun setup-echo-area ()
   (interactive)
   (walk-windows (lambda (w) (when (window-minibuffer-p w)
                               (set-window-fringes w 2 2 0))) t t))
 (add-hook 'window-configuration-change-hook 'setup-echo-area)
+
+; special minibuffer keys
+(define-key minibuffer-local-map (kbd "C-u") '(lambda ()
+                                                (interactive)
+                                                (move-beginning-of-line nil)
+                                                (delete-line)))
 
 ; highlight-symbol
 ; cd ~/.emacs.d/plugins
