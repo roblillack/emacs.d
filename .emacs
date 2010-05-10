@@ -79,6 +79,23 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
 ;(add-to-list 'load-path "/opt/local/share/emacs/site-lisp")
 
+; emacs-jabber: http://emacs-jabber.sourceforge.net/
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/emacs-jabber"))
+(require 'jabber-autoloads)
+(setq jabber-roster-buffer "ROSTER")
+(setq jabber-roster-show-title nil)
+(setq jabber-roster-show-bindings nil)
+(setq jabber-show-resources nil)
+(setq jabber-roster-line-format "%c %-30n %u %S")
+(custom-set-faces
+ '(jabber-title-small ((t (:underline t :foreground "#777777"))))
+ '(jabber-title-medium ((t (:weight bold :foreground "#333333"))))
+ '(jabber-title-large ((t (:weight bold :foreground "black")))))
+; i'm setting a list in ~/.emacs.d/private.el like this:
+; (setq jabber-account-list '(("myaccount@bla.example") ("anotherone@bling.example/emacs")))
+(setq jabber-account-list '())
+
+
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -911,5 +928,9 @@ Otherwise, analyses point position and answers."
    (define-key csharp-mode-map [tab] 'c-tab-indent-or-complete)))
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
+; load initialization stuff that should not go into github :)
+(load (expand-file-name "~/.emacs.d/private.el"))
+
 (when window-system
   (server-start))
+
