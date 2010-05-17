@@ -931,8 +931,8 @@ Otherwise, analyses point position and answers."
   (progn
    (setq tab-width 2)
    (setq c-basic-offset 2)
-   (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)
-   (define-key csharp-mode-map [tab] 'c-tab-indent-or-complete)))
+   (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)))
+
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 ; load initialization stuff that should not go into github :)
