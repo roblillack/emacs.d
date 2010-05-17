@@ -759,7 +759,7 @@ using `company-mode' or `hippie-expand'."
   (interactive)
   (unless (yas/expand)
     (cond (*want-company* (call-interactively 'company-start-showing))
-          (*want-ac* (call-interactively 'auto-complete))
+          ((and *want-ac* auto-complete-mode) (call-interactively 'auto-complete))
           (t (call-interactively 'hippie-expand)))))
 
 (defun smart-indent ()
