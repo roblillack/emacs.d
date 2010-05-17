@@ -447,13 +447,20 @@ depending on the current position."
 
 (global-set-key (kbd "M-j") 'join-with-next-line)
 
-; Suchen
-(global-set-key "\C-s" 'isearch-forward-regexp)
-(global-set-key "\C-r" 'isearch-backward-regexp)
-(global-set-key "\C-\M-s" 'isearch-forward)
-(global-set-key "\C-\M-r" 'isearch-backward)
+; Search
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+(global-set-key (kbd "C-f") 'isearch-forward-regexp)
+(global-set-key (kbd "C-S-f") 'isearch-backward-regexp)
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
-(define-key isearch-mode-map (kbd "<escape>") 'isearch-abort)
+(define-key isearch-mode-map (kbd "<escape>") 'isearch-exit)
+(define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+(define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+(define-key isearch-mode-map (kbd "C-f") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "C-S-f") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
 ; moving in panes/„windows“
 (global-set-key (kbd "M-<left>") 'windmove-left)
