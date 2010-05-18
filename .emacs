@@ -594,7 +594,14 @@ depending on the current position."
 (org-clock-persistence-insinuate)
 (setq org-startup-folded nil)
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-(define-key global-map (kbd "<f12>") 'org-agenda)
+(define-key global-map (kbd "<f12>") 'toggle-org-agenda-list)
+
+(defun toggle-org-agenda-list ()
+  "Shows or hides the org-agenda list view"
+  (interactive)
+  (if (get-buffer org-agenda-buffer-name)
+    (org-agenda-exit)
+    (org-agenda-list)))
 
 ; Clojure support
 (autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
