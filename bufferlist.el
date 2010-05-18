@@ -19,7 +19,6 @@
   (interactive)
   (when bufferlist-global-hl-line-mode
     (global-hl-line-mode 1))
-  ;(delete-overlay bufferlist-background)
   (kill-buffer-and-window)
   (set-window-configuration bufferlist-window-config))
 
@@ -46,16 +45,10 @@
 
 (defun bufferlist-style-buffer ()
   (setq buffer-read-only nil)
-  ;(unless bufferlist-background
-  ;  (progn
-  ;    (setq bufferlist-background
-  ;          (make-overlay (point-min) (point-max) nil nil t))
-  ;    (overlay-put bufferlist-background 'face
-  ;                 (list :background "#ffff00"))))
   (set-text-properties (point-min) (point-max)
                        '(face '((:weight ultra-light)
-                                (foreground-color . "#000000")
-                                (background-color . "#00ffff"))))
+                                (foreground-color . "#333333")
+                                (background-color . "#ccccff"))))
   (put-text-property (point) (1+ (point-at-eol))
                      'face '((:weight bold)
                              (foreground-color . "#ffffff")
@@ -138,7 +131,6 @@
   "erstellt eine bufferlist aehnlich der, die ich fuer vim gebaut habe "
   (interactive)
   (setq bufferlist-window-config (current-window-configuration))
-  (setq bufferlist-background nil)
   ; temporarily turn off global hl-line-mode
   (when global-hl-line-mode
     (setq bufferlist-global-hl-line-mode t)
