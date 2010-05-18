@@ -599,7 +599,8 @@ depending on the current position."
 (defun toggle-org-agenda-list ()
   "Shows or hides the org-agenda list view"
   (interactive)
-  (if (get-buffer org-agenda-buffer-name)
+  (if (and (boundp 'org-agenda-buffer-name)
+           (get-buffer org-agenda-buffer-name))
     (org-agenda-exit)
     (org-agenda-list)))
 
