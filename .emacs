@@ -601,9 +601,12 @@ depending on the current position."
   (interactive)
   (if (and (boundp 'org-agenda-buffer-name)
            (get-buffer org-agenda-buffer-name))
-    (org-agenda-exit)
+      (progn
+        (org-agenda-exit)
+        (set-window-configuration toggle-org-agenda-list-window-config))
     (progn
       (message "Loading agenda list …")
+      (setq toggle-org-agenda-list-window-config (current-window-configuration))
       (org-agenda-list))))
 
 ; Clojure support
