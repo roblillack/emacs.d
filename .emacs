@@ -318,6 +318,13 @@ buffer-local variable `show-trailing-whitespace'."
 ; frame switching
 (global-set-key (kbd "C-`") 'next-multiframe-window)
 
+; do not open *Messages* when clicking into minibuffer
+(defun my-mouse-drag-region (event)
+  (interactive "e")
+  (run-hooks 'mouse-leave-buffer-hook)
+  (mouse-drag-track event t))
+(global-set-key [down-mouse-1] 'my-mouse-drag-region)
+
 ; mehrere files mit gleichem namen? verzeichnisse mit in puffernamen nehmen
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
