@@ -457,6 +457,7 @@ depending on the current position."
 (global-set-key (kbd "C-S-f") 'isearch-backward-regexp)
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
 (define-key isearch-mode-map (kbd "<escape>") 'isearch-exit)
+(define-key isearch-mode-map (kbd "<return>") 'isearch-repeat-forward)
 (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
 (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "C-f") 'isearch-repeat-forward)
