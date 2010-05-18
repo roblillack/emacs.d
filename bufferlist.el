@@ -65,16 +65,16 @@
 (defun bufferlist-move-up ()
   (interactive)
   (goto-char (point-at-bol 0))
-  (bufferlist-style-buffer)
-)
+  (bufferlist-style-buffer))
 
 (defun bufferlist-move-down ()
   (interactive)
   (goto-char (point-at-bol 2))
+  (when (= (line-end-position) (line-beginning-position))
+    (goto-char (point-at-bol 0)))
   (when (= (point) (point-max))
     (goto-char (point-at-bol 0)))
-  (bufferlist-style-buffer)
-)
+  (bufferlist-style-buffer))
 
 (defun bufferlist-load-buffers (&optional active-buffer)
   (setq bufferlist-list '())
@@ -112,6 +112,12 @@
                            (eq (nth 0 e) active-buffer))
                   (princ "*"))
                 (princ "\n"))))
+
+    (let ((rest (- (window-height) (length bufferlist-list))))
+      (while (> rest 0)
+        (insert "\n")
+        (decf rest)))
+
     (setq major-mode 'bufferlist-mode)
     (setq mode-name "BUFFERLIST")
     (use-local-map bufferlist-mode-map)
