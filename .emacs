@@ -602,7 +602,9 @@ depending on the current position."
   (if (and (boundp 'org-agenda-buffer-name)
            (get-buffer org-agenda-buffer-name))
     (org-agenda-exit)
-    (org-agenda-list)))
+    (progn
+      (message "Loading agenda list …")
+      (org-agenda-list))))
 
 ; Clojure support
 (autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
