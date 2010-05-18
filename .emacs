@@ -919,6 +919,11 @@ Otherwise, analyses point position and answers."
 ;; optional keyboard short-cut
 ;(global-set-key "\C-xm" 'browse-url-at-point)
 
+; browser settings
+(when (eq window-system 'x)
+  (setq browse-url-generic-program "google-chrome"))
+(setq browse-url-browser-function 'browse-url-generic)
+
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 (defun my-c-mode-common-hook ()
