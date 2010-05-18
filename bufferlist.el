@@ -2,8 +2,8 @@
 
 (defvar bufferlist-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map [f3] 'kill-buffer-and-window)
-    (define-key map [escape] 'kill-buffer-and-window)
+    (define-key map [f3] 'bufferlist-quit)
+    (define-key map [escape] 'bufferlist-quit)
     (define-key map [return] 'bufferlist-activate-buffer)
     (define-key map "\r" 'bufferlist-activate-buffer)
     (define-key map [delete] 'bufferlist-kill-buffer)
@@ -15,11 +15,13 @@
     map))
 
 (defun bufferlist-quit ()
+  ""
+  (interactive)
   (when bufferlist-global-hl-line-mode
     (global-hl-line-mode 1))
   ;(delete-overlay bufferlist-background)
   (kill-buffer-and-window)
-)
+  (set-window-configuration bufferlist-window-config))
 
 (defun bufferlist-activate-buffer ()
   ""
@@ -129,6 +131,7 @@
 (defun bufferlist ()
   "erstellt eine bufferlist aehnlich der, die ich fuer vim gebaut habe "
   (interactive)
+  (setq bufferlist-window-config (current-window-configuration))
   (setq bufferlist-background nil)
   ; temporarily turn off global hl-line-mode
   (when global-hl-line-mode
