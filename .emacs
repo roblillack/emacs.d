@@ -86,6 +86,7 @@
 (setq jabber-roster-show-title nil)
 (setq jabber-roster-show-bindings nil)
 (setq jabber-show-resources nil)
+(setq jabber-chat-buffer-show-avatar nil)
 (setq jabber-roster-line-format "%c %-30n %u %S")
 (custom-set-faces
  '(jabber-title-small ((t (:underline t :foreground "#777777"))))
