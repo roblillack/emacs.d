@@ -591,7 +591,9 @@ depending on the current position."
 (define-key global-map "\C-cr" 'org-remember)
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
+(setq org-startup-folded nil)
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(define-key global-map (kbd "<f12>") 'org-agenda)
 
 ; Clojure support
 (autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
