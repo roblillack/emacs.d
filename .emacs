@@ -215,6 +215,7 @@
 (setq-default show-trailing-whitespace t)             ; whitespace am zeilenende zeigen
 (setq scroll-conservatively 3)                        ; bei max 3 zeilen scrollen ohne recenter
 (global-subword-mode t)                               ; CamelCase als EinzelWorte
+(setq require-final-newline t)
 
 ; copy'n'paste behaviour
 (when (eq window-system 'x)
