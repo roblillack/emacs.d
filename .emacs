@@ -9,7 +9,9 @@
 (setq *want-ac* t)
 
 (when *is-a-mac*
-  (setenv "PATH" "/opt/local/bin:/bin:/usr/bin:/sbin:/usr/sbin"))
+  (setenv "PATH" (concat
+                  (expand-file-name "~/bin")
+                  ":/opt/local/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin")))
 
 ;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
 ;    (let* ((my-lisp-dir "~/.emacs.d/plugins/")
