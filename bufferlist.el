@@ -2,8 +2,8 @@
 
 (defvar bufferlist-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map [f3] 'kill-buffer-and-window)
-    (define-key map [escape] 'kill-buffer-and-window)
+    (define-key map [f3] 'bufferlist-quit)
+    (define-key map [escape] 'bufferlist-quit)
     (define-key map [return] 'bufferlist-activate-buffer)
     (define-key map "\r" 'bufferlist-activate-buffer)
     (define-key map [delete] 'bufferlist-kill-buffer)
@@ -12,14 +12,23 @@
     (define-key map [backspace] 'bufferlist-kill-buffer)
     (define-key map [up] 'bufferlist-move-up)
     (define-key map [down] 'bufferlist-move-down)
+    (define-key map [home] 'bufferlist-move-to-top)
+    (define-key map [end] 'bufferlist-move-to-bottom)
+    (define-key map [prior] 'bufferlist-move-page-up)
+    (define-key map [next] 'bufferlist-move-page-down)
+    (define-key map [mouse-wheel-up] 'bufferlist-move-up)
+    (define-key map [mouse-wheel-down] 'bufferlist-move-down)
+    (define-key map [mouse-4] 'bufferlist-move-up)
+    (define-key map [mouse-5] 'bufferlist-move-down)
     map))
 
 (defun bufferlist-quit ()
+  ""
+  (interactive)
   (when bufferlist-global-hl-line-mode
     (global-hl-line-mode 1))
-  ;(delete-overlay bufferlist-background)
   (kill-buffer-and-window)
-)
+  (set-window-configuration bufferlist-window-config))
 
 (defun bufferlist-activate-buffer ()
   ""
@@ -44,35 +53,50 @@
 
 (defun bufferlist-style-buffer ()
   (setq buffer-read-only nil)
-  ;(unless bufferlist-background
-  ;  (progn
-  ;    (setq bufferlist-background
-  ;          (make-overlay (point-min) (point-max) nil nil t))
-  ;    (overlay-put bufferlist-background 'face
-  ;                 (list :background "#ffff00"))))
   (set-text-properties (point-min) (point-max)
                        '(face '((:weight ultra-light)
-                                (foreground-color . "#000000")
-                                (background-color . "#00ffff"))))
+                                (foreground-color . "#333333")
+                                (background-color . "#ccccff"))))
   (put-text-property (point) (1+ (point-at-eol))
                      'face '((:weight bold)
                              (foreground-color . "#ffffff")
                              (background-color . "#ff0000")))
   (setq buffer-read-only t))
 
-(defun bufferlist-move-up ()
-  (interactive)
-  (goto-char (point-at-bol 0))
-  (bufferlist-style-buffer)
-)
+(defun bufferlist-move-up (count)
+  (interactive "P")
+  (let ((c (if count count 1)))
+    (while (> c 0)
+      (goto-char (point-at-bol 0))
+      (decf c)))
+  (bufferlist-style-buffer))
 
-(defun bufferlist-move-down ()
-  (interactive)
-  (goto-char (point-at-bol 2))
-  (when (= (point) (point-max))
+(defun bufferlist-move-down (count)
+  (interactive "P")
+  (goto-char (point-at-bol (+ 1 (if count count 1))))
+  (while (= (line-end-position) (line-beginning-position))
     (goto-char (point-at-bol 0)))
-  (bufferlist-style-buffer)
-)
+  (bufferlist-style-buffer))
+
+(defun bufferlist-move-page-up ()
+  (interactive)
+  (bufferlist-move-up 10))
+
+(defun bufferlist-move-page-down ()
+  (interactive)
+  (bufferlist-move-down 10))
+
+(defun bufferlist-move-to-top ()
+  (interactive)
+  (goto-char 0)
+  (bufferlist-style-buffer))
+
+(defun bufferlist-move-to-bottom ()
+  (interactive)
+  (goto-char (point-at-bol (point-max)))
+  (while (= (line-end-position) (line-beginning-position))
+    (goto-char (point-at-bol 0)))
+  (bufferlist-style-buffer))
 
 (defun bufferlist-load-buffers (&optional active-buffer)
   (setq bufferlist-list '())
@@ -110,6 +134,12 @@
                            (eq (nth 0 e) active-buffer))
                   (princ "*"))
                 (princ "\n"))))
+
+    (let ((rest (- (window-height) (length bufferlist-list))))
+      (while (> rest 0)
+        (insert "\n")
+        (decf rest)))
+
     (setq major-mode 'bufferlist-mode)
     (setq mode-name "BUFFERLIST")
     (use-local-map bufferlist-mode-map)
@@ -129,7 +159,7 @@
 (defun bufferlist ()
   "erstellt eine bufferlist aehnlich der, die ich fuer vim gebaut habe "
   (interactive)
-  (setq bufferlist-background nil)
+  (setq bufferlist-window-config (current-window-configuration))
   ; temporarily turn off global hl-line-mode
   (when global-hl-line-mode
     (setq bufferlist-global-hl-line-mode t)

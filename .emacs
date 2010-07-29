@@ -88,6 +88,7 @@
 (setq jabber-roster-show-title nil)
 (setq jabber-roster-show-bindings nil)
 (setq jabber-show-resources nil)
+(setq jabber-chat-buffer-show-avatar nil)
 (setq jabber-roster-line-format "%c %-30n %u %S")
 (custom-set-faces
  '(jabber-title-small ((t (:underline t :foreground "#777777"))))
@@ -320,6 +321,13 @@ buffer-local variable `show-trailing-whitespace'."
 ; frame switching
 (global-set-key (kbd "C-`") 'next-multiframe-window)
 
+; do not open *Messages* when clicking into minibuffer
+(defun my-mouse-drag-region (event)
+  (interactive "e")
+  (run-hooks 'mouse-leave-buffer-hook)
+  (mouse-drag-track event t))
+(global-set-key [down-mouse-1] 'my-mouse-drag-region)
+
 ; mehrere files mit gleichem namen? verzeichnisse mit in puffernamen nehmen
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'reverse)
@@ -450,13 +458,21 @@ depending on the current position."
 
 (global-set-key (kbd "M-j") 'join-with-next-line)
 
-; Suchen
-(global-set-key "\C-s" 'isearch-forward-regexp)
-(global-set-key "\C-r" 'isearch-backward-regexp)
-(global-set-key "\C-\M-s" 'isearch-forward)
-(global-set-key "\C-\M-r" 'isearch-backward)
+; Search
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+(global-set-key (kbd "C-f") 'isearch-forward-regexp)
+(global-set-key (kbd "C-S-f") 'isearch-backward-regexp)
 (define-key isearch-mode-map (kbd "<backspace>") 'isearch-del-char)
-(define-key isearch-mode-map (kbd "<escape>") 'isearch-abort)
+(define-key isearch-mode-map (kbd "<escape>") 'isearch-exit)
+(define-key isearch-mode-map (kbd "<return>") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+(define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+(define-key isearch-mode-map (kbd "C-f") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "C-S-f") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
 ; moving in panes/„windows“
 (global-set-key (kbd "M-<left>") 'windmove-left)
@@ -586,7 +602,22 @@ depending on the current position."
 (define-key global-map "\C-cr" 'org-remember)
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
+(setq org-startup-folded nil)
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(define-key global-map (kbd "<f12>") 'toggle-org-agenda-list)
+
+(defun toggle-org-agenda-list ()
+  "Shows or hides the org-agenda list view"
+  (interactive)
+  (if (and (boundp 'org-agenda-buffer-name)
+           (get-buffer org-agenda-buffer-name))
+      (progn
+        (org-agenda-exit)
+        (set-window-configuration toggle-org-agenda-list-window-config))
+    (progn
+      (message "Loading agenda list …")
+      (setq toggle-org-agenda-list-window-config (current-window-configuration))
+      (org-agenda-list))))
 
 ; Clojure support
 (autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
@@ -755,7 +786,7 @@ using `company-mode' or `hippie-expand'."
   (interactive)
   (unless (yas/expand)
     (cond (*want-company* (call-interactively 'company-start-showing))
-          (*want-ac* (call-interactively 'auto-complete))
+          ((and *want-ac* auto-complete-mode) (call-interactively 'auto-complete))
           (t (call-interactively 'hippie-expand)))))
 
 (defun smart-indent ()
@@ -912,6 +943,11 @@ Otherwise, analyses point position and answers."
 ;; optional keyboard short-cut
 ;(global-set-key "\C-xm" 'browse-url-at-point)
 
+; browser settings
+(when (eq window-system 'x)
+  (setq browse-url-generic-program "google-chrome"))
+(setq browse-url-browser-function 'browse-url-generic)
+
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 (defun my-c-mode-common-hook ()
@@ -927,8 +963,8 @@ Otherwise, analyses point position and answers."
   (progn
    (setq tab-width 2)
    (setq c-basic-offset 2)
-   (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)
-   (define-key csharp-mode-map [tab] 'c-tab-indent-or-complete)))
+   (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)))
+
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 ; load initialization stuff that should not go into github :)
