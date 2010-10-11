@@ -1013,3 +1013,6 @@ Otherwise, analyses point position and answers."
 (when window-system
   (server-start))
 
+(require 'edit-server)
+(edit-server-start)
+
