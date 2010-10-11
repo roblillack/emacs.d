@@ -600,10 +600,11 @@ depending on the current position."
 (setq org-directory "~/org")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (define-key global-map "\C-cr" 'org-remember)
+(define-key global-map "\C-cj" 'org-journal-entry)
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 (setq org-startup-folded nil)
-(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(define-key global-map (kbd "<f9>") 'toggle-org-journal)
 (define-key global-map (kbd "<f12>") 'toggle-org-agenda-list)
 
 (defun toggle-org-agenda-list ()
@@ -618,6 +619,49 @@ depending on the current position."
       (message "Loading agenda list …")
       (setq toggle-org-agenda-list-window-config (current-window-configuration))
       (org-agenda-list))))
+
+; Journaling:
+; Taken from http://metajack.im/2009/01/01/journaling-with-emacs-orgmode/
+; Modified to allow toggling.
+(defvar org-journal-file "~/org/journal.org" "Path to OrgMode journal file.")
+(defvar org-journal-buffer-name "*JOURNAL*" "Name of the journal buffer")
+(defvar org-journal-date-format "%Y-%m-%d %A (W%W)" "Date format string for journal headings.")
+
+(defun toggle-org-journal ()
+  "Shows or hides the org-journal view"
+  (interactive)
+  (let ((buf (get-buffer org-journal-buffer-name)))
+    (if buf
+        (with-current-buffer buf
+          (save-buffer)
+          (kill-buffer))
+      (org-journal-entry))))
+
+(defun org-journal-entry ()
+  "Create a new diary entry for today or append to an existing one."
+  (interactive)
+  (find-file org-journal-file)
+  (rename-buffer org-journal-buffer-name)
+  (widen)
+  (let ((today (format-time-string org-journal-date-format)))
+    (beginning-of-buffer)
+    (unless (org-goto-local-search-headings today nil t)
+      ((lambda ()
+         (org-insert-heading)
+         (insert today)
+         (insert "\n- \n"))))
+    (beginning-of-buffer)
+    (hide-body)
+    (org-show-entry)
+    (org-narrow-to-subtree)
+    (end-of-buffer)
+    (backward-char 2)
+    (unless (= (current-column) 2)
+      (insert "\n- ")))
+    (widen))
+
+; GNUplot
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
 
 ; Clojure support
 (autoload 'clojure-mode "clojure-mode/clojure-mode.el" "A major mode for Clojure" t)
