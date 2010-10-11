@@ -686,13 +686,9 @@ depending on the current position."
             (unless (eq major-mode 'mail-mode)
               (delete-trailing-whitespace))))
 
-;(autoload 'twitter-get-friends-timeline "twitter" nil t)
-;(autoload 'twitter-status-edit "twitter" nil t)
-;(global-set-key "\C-xt" 'twitter-get-friends-timeline)
-;(add-hook 'twitter-status-edit-mode-hook 'longlines-mode)
-
 ;(require 'w3m-load)
 
+; robs bufferlist
 (require 'bufferlist)
 
 ; line numbering
@@ -926,7 +922,7 @@ Otherwise, analyses point position and answers."
 ;(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process")
 ;(autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
 ;(autoload 'ruby-electric-mode "ruby-electric" "Run the electric ruby minor mode")
-;(add-hook 'ruby-mode-hook
+;(add-hook 'ruby-mode-hooku
 ;          '(lambda ()
 ;             (inf-ruby-keys)
 ;             (ruby-electric-mode t)
