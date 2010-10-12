@@ -472,6 +472,7 @@ depending on the current position."
 (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "C-f") 'isearch-repeat-forward)
 (define-key isearch-mode-map (kbd "C-S-f") 'isearch-repeat-backward)
+(define-key isearch-mode-map (kbd "C-g") 'isearch-repeat-forward)
 (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
 ; moving in panes/„windows“
