@@ -601,11 +601,11 @@ depending on the current position."
 (setq org-directory "~/org")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (define-key global-map "\C-cr" 'org-remember)
-(define-key global-map "\C-cj" 'org-journal-entry)
 (setq org-clock-persist t)
 (org-clock-persistence-insinuate)
 (setq org-startup-folded nil)
 (define-key global-map (kbd "<f9>") 'toggle-org-journal)
+(define-key global-map (kbd "C-c j") 'toggle-org-journal)
 (define-key global-map (kbd "<f12>") 'toggle-org-agenda-list)
 
 (defun toggle-org-agenda-list ()
