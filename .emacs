@@ -665,6 +665,10 @@ depending on the current position."
 ; GNUplot
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
 
+; D support
+(autoload 'd-mode "d-mode" "Major mode for editing D code." t)
+(add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
+
 ; PHP support
 (autoload 'php-mode "php-mode" "PHP editing mode" t)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
