@@ -3,14 +3,16 @@
 ;;; Code:
 
 
-;;;### (autoloads nil nil ("xml-rpc-pkg.el" "xml-rpc.el") (18526
-;;;;;;  39242 777081))
+;;;### (autoloads nil nil ("xml-rpc-pkg.el" "xml-rpc.el") (19639
+;;;;;;  26590 741425))
 
 ;;;***
 
+(provide 'xml-rpc-autoloads)
 ;; Local Variables:
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; coding: utf-8
 ;; End:
 ;;; xml-rpc-autoloads.el ends here
