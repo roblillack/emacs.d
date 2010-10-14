@@ -678,6 +678,14 @@ depending on the current position."
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
 
+; Go Language support
+(autoload 'go-mode "go-mode" "Go Language Support" t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+; LLVM Assembly Language support
+(autoload 'llvm-mode "llvm-mode" "LLVM Assembly Language support" t)
+(add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode))
+
 ; Don't break the signature separator!
 (add-hook 'before-save-hook
           (lambda ()
