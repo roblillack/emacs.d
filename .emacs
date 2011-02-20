@@ -8,6 +8,53 @@
 (setq *want-gtags* t)
 (setq *want-ac* t)
 
+
+;; Set basic looks pretty early after startup ...
+
+;; Some window system specific settings.
+(if window-system
+  (progn
+    (menu-bar-mode (if (eq system-type 'darwin) t -1))
+    (tool-bar-mode -1)
+    (setq line-number-mode t)
+    (setq column-number-mode t))
+  (menu-bar-mode -1))
+
+(custom-set-faces
+ '(default ((default (:stipple nil :background "#ffffff"
+                      :foreground "#1a1a1a" :inverse-video nil
+                      :box nil :strike-through nil :overline nil
+                      :underline nil :slant normal :weight normal
+                      :width normal))
+            (((type ns)) (:height 110 :family "Menlo"))
+            ; same dimensions
+            ;(((type x)) (:height 105 :family "Inconsolata")) ; 100
+            (((type x)) (:height 90 :family "DejaVu Sans Mono")) ; 85
+            (t (:height 90 :family "fixed"))))
+ '(fixed-pitch ((t nil)))
+ '(trailing-whitespace ((t :background "#ffffee")))
+ '(mode-line ((default (:background "#5555aa" :foreground "white"
+                  :box (:line-width 1 :style released-button)))
+              (((type ns)) (:height 120 :family "Optima"))
+              (((type x)) (:height 75 :family "sans"))
+              (t (:height 80 :family "Helvetica"))))
+ '(modeline-inactive ((default (:inherit modeline
+                                :background "#dddddd"
+                                :foreground "#777777"
+                                :box (:line-width 1)))))
+ '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
+ '(linum ((default (:inherit fringe))))
+ '(variable-pitch ((t (:inherit mode-line))))
+ '(font-lock-comment-face ((t (:foreground "#555555"))))
+ '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
+
+ '(font-lock-variable-name-face ((default (:foreground "#990000"))))
+ '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
+ '(php-variable-marker-face ((default (:foreground "#333399"))))
+ '(php-property-name-face ((default (:foreground "#339933"))))
+ '(php-type-access-face ((default (:foreground "#555577"))))
+)
+
 (setq exec-path
   '((expand-file-name "~/bin")
     "/usr/local/bin"
@@ -22,11 +69,28 @@
   (error "plz install el-get"))
 
 (setq el-get-sources
-  '(auto-complete
+  '(auto-complete color-theme gnuplot-mode go-mode highlight-symbol
+    (:name bm
+           :type http
+           :url "http://download.savannah.gnu.org/releases/bm/bm-1.43.el"
+           :localname "bm.el")
+    (:name clojure-mode
+           :autoloads nil
+           :after (lambda ()
+                    (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t)
+                    (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))))
     (:name gitsum
-     :type git
-     :url "git://github.com/chneukirchen/gitsum.git"
-     :features gitsum)))
+           :type git
+           :url "git://github.com/chneukirchen/gitsum.git"
+           :features gitsum)
+    (:name yasnippet
+           :features yasnippet
+           :after (lambda ()
+                    (setq yas/trigger-key [f8])
+                    (setq yas/next-field-key [S-tab])
+                    (setq yas/fallback-behaviour 'return-nil)
+                    (yas/initialize)
+                    (yas/load-directory "~/.emacs.d/snippets")))))
 (el-get)
 
 (when *is-a-mac*
@@ -145,52 +209,6 @@
 ;(autoload 'ibuffer "ibuffer" "List buffers." t)
 
 ; yes.
-
-
-;; Some window system specific settings.
-(if window-system
-  (progn
-    (menu-bar-mode (if (eq system-type 'darwin) t -1))
-    (tool-bar-mode -1)
-    (setq line-number-mode t)
-    (setq column-number-mode t))
-  (menu-bar-mode -1)
-)
-
-(custom-set-faces
- '(default ((default (:stipple nil :background "#ffffff"
-                      :foreground "#1a1a1a" :inverse-video nil
-                      :box nil :strike-through nil :overline nil
-                      :underline nil :slant normal :weight normal
-                      :width normal))
-            (((type ns)) (:height 110 :family "Menlo"))
-            ; same dimensions
-            ;(((type x)) (:height 105 :family "Inconsolata")) ; 100
-            (((type x)) (:height 90 :family "DejaVu Sans Mono")) ; 85
-            (t (:height 90 :family "fixed"))))
- '(fixed-pitch ((t nil)))
- '(trailing-whitespace ((t :background "#ffffee")))
- '(mode-line ((default (:background "#5555aa" :foreground "white"
-                  :box (:line-width 1 :style released-button)))
-              (((type ns)) (:height 120 :family "Optima"))
-              (((type x)) (:height 75 :family "sans"))
-              (t (:height 80 :family "Helvetica"))))
- '(modeline-inactive ((default (:inherit modeline
-                                :background "#dddddd"
-                                :foreground "#777777"
-                                :box (:line-width 1)))))
- '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
- '(linum ((default (:inherit fringe))))
- '(variable-pitch ((t (:inherit mode-line))))
- '(font-lock-comment-face ((t (:foreground "#555555"))))
- '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
-
- '(font-lock-variable-name-face ((default (:foreground "#990000"))))
- '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
- '(php-variable-marker-face ((default (:foreground "#333399"))))
- '(php-property-name-face ((default (:foreground "#339933"))))
- '(php-type-access-face ((default (:foreground "#555577"))))
-)
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
@@ -678,9 +696,6 @@ depending on the current position."
       (insert "\n- ")))
     (widen))
 
-; GNUplot
-(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-
 ; D support
 (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
 (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
@@ -697,10 +712,6 @@ depending on the current position."
             (define-key php-mode-map (kbd "C-.") nil)))
 ;            (require 'flymake-php)
 ;            (flymake-mode t)))
-
-; Go Language support
-(autoload 'go-mode "go-mode" "Go Language Support" t)
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 ; LLVM Assembly Language support
 (autoload 'llvm-mode "llvm-mode" "LLVM Assembly Language support" t)
@@ -765,16 +776,6 @@ depending on the current position."
 ;(require 'color-theme)
 ;(color-theme-initialize)
 ;(color-theme-robin-hood)
-
-; yasnippet
-; cd ~/.emacs.d/plugins && svn checkout http://yasnippet.googlecode.com/svn/trunk/ yasnippet
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(setq yas/trigger-key [f8])
-(setq yas/next-field-key [S-tab])
-(setq yas/fallback-behaviour 'return-nil)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
 
 ; hippie
 (require 'dabbrev)
@@ -872,9 +873,7 @@ Otherwise, analyses point position and answers."
 
 (global-set-key [tab] 'smart-tab)
 
-; bookmarks
-; cd ~/.emacs.d/plugins
-; http://download.savannah.gnu.org/releases/bm/bm-1.34.el
+; bookmarks, see el-get-sources above
 (when window-system
   (require 'bm)
   (setq-default bm-buffer-persistence t)
@@ -932,9 +931,7 @@ Otherwise, analyses point position and answers."
     (abort-recursive-edit)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
-; highlight-symbol
-; cd ~/.emacs.d/plugins
-; wget http://nschum.de/src/emacs/highlight-symbol/highlight-symbol.el
+; highlight-symbol, see el-get-sources above
 (require 'highlight-symbol)
 (defun highlight-symbol-mouse-toggle (event)
   (interactive "e")
@@ -1017,6 +1014,7 @@ Otherwise, analyses point position and answers."
 ;(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
 ;; optional keyboard short-cut
 ;(global-set-key "\C-xm" 'browse-url-at-point)
+
 
 ; browser settings
 (when (eq window-system 'x)
