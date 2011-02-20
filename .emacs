@@ -8,6 +8,24 @@
 (setq *want-gtags* t)
 (setq *want-ac* t)
 
+(setq exec-path
+  '((expand-file-name "~/bin")
+    "/usr/local/bin"
+    "/opt/local/bin"
+    "/bin"
+    "/usr/bin"
+    "/sbin"
+    "/usr/sbin"))
+
+(load (expand-file-name "~/.emacs.d/el-get/el-get/el-get.el"))
+(setq el-get-sources
+  '(auto-complete
+    (:name gitsum
+     :type git
+     :url "git://github.com/chneukirchen/gitsum.git"
+     :features gitsum)))
+(el-get)
+
 (when *is-a-mac*
   (setenv "PATH" (concat
                   (expand-file-name "~/bin")
@@ -549,16 +567,11 @@ depending on the current position."
 ;(autoload 'git-blame-mode "git-blame"
 ;          "Minor mode for incremental blame for Git." t)
 
-; gitsum FTW!
-; see: http://github.com/chneukirchen/gitsum
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/gitsum"))
-(require 'gitsum)
 
 ; auto-complete mode
 (when *want-ac*
-  (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/auto-complete"))
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/plugins/auto-complete/dict"))
+  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/auto-complete-dict"))
   (ac-config-default)
   (define-key ac-completing-map [tab] 'ac-expand)
   (define-key ac-completing-map [escape] 'ac-stop)
