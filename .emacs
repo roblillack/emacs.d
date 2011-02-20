@@ -69,7 +69,7 @@
   (error "plz install el-get"))
 
 (setq el-get-sources
-  '(auto-complete color-theme gnuplot-mode go-mode highlight-symbol
+  '(auto-complete color-theme el-get gnuplot-mode go-mode highlight-symbol
     (:name bm
            :type http
            :url "http://download.savannah.gnu.org/releases/bm/bm-1.43.el"
