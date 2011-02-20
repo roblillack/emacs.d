@@ -64,13 +64,15 @@
     "/sbin"
     "/usr/sbin"))
 
-
 (unless (load (expand-file-name "~/.emacs.d/el-get/el-get/el-get.el") t)
   (error "plz install el-get"))
 
 (setq el-get-sources
-  '(auto-complete color-theme csharp-mode el-get gnuplot-mode go-mode
-    highlight-symbol lua-mode
+  '(auto-complete
+    (:name autopair
+           :after autopair-global-mode)
+    color-theme csharp-mode el-get gnuplot-mode go-mode
+    highlight-symbol lua-mode package smex
     (:name bm
            :type http
            :url "http://download.savannah.gnu.org/releases/bm/bm-1.43.el"
@@ -84,6 +86,10 @@
            :type git
            :url "git://github.com/chneukirchen/gitsum.git"
            :features gitsum)
+    (:name regex-tool
+           :type git
+           :url "git://github.com/jwiegley/regex-tool.git"
+           :features regex-tool)
     (:name yasnippet
            :features yasnippet
            :after (lambda ()
@@ -176,16 +182,6 @@
 (prefer-coding-system 'utf-8)
 
 ;(autoload 'typopunct-mode "typopunct" "Typopunct Mode" t)
-
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
-  (package-initialize))
 
 ;(global-set-key (kbd "C-x C-b") 'ibuffer)
 ;(autoload 'ibuffer "ibuffer" "List buffers." t)
