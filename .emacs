@@ -1043,7 +1043,7 @@ Otherwise, analyses point position and answers."
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 ; load initialization stuff that should not go into github :)
-(load (expand-file-name "~/.emacs.d/private.el"))
+(load (expand-file-name "~/.emacs.d/private.el") t)
 
 (when window-system
   (server-start))
