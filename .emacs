@@ -99,26 +99,10 @@
                   (expand-file-name "~/bin")
                   ":/opt/local/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin")))
 
-;(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-;    (let* ((my-lisp-dir "~/.emacs.d/plugins/")
-;           (default-directory my-lisp-dir))
-;      (progn
-;        (setq load-path (cons my-lisp-dir load-path))
-;        (normal-top-level-add-subdirs-to-load-path))))
-;(setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
-
-;(when *byte-code-cache-enabled*
-;  (load "init-byte-code-cache"))
-
-;(require 'color-theme)
-
 ;(require 'slime)
 ;(slime-setup)
 (setq inferior-lisp-program "sbcl")
 ;(setq inferior-lisp-program "java -cp /home/rob/dev/clojure/clojure.jar clojure.main")
-
-;(color-theme-clarity)
-;(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ; jetzt ziehen wir alle register
 (set-register ?e '(file . "~/.emacs"))
@@ -203,13 +187,8 @@
      (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
-;;(require 'install-elisp)
-;;(setq install-elisp-repository-directory "~/.emacs.d/")
-
 ;(global-set-key (kbd "C-x C-b") 'ibuffer)
 ;(autoload 'ibuffer "ibuffer" "List buffers." t)
-
-; yes.
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
@@ -771,13 +750,6 @@ depending on the current position."
 ;(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/ecb-2.32"))
 ;(require 'ecb)
 
-; color-theme
-; wget http://download.gna.org/color-theme/color-theme-6.6.0.zip
-;(add-to-list 'load-path "~/.emacs.d/plugins/color-theme")
-;(require 'color-theme)
-;(color-theme-initialize)
-;(color-theme-robin-hood)
-
 ; hippie
 (require 'dabbrev)
 (require 'hippie-exp)
@@ -1022,8 +994,6 @@ Otherwise, analyses point position and answers."
   (setq browse-url-generic-program "google-chrome"))
 (setq browse-url-browser-function 'browse-url-generic)
 
-(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
-(add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 (defun my-c-mode-common-hook ()
   (c-set-offset 'substatement-open 0)
   (c-set-offset 'statement-cont 4)
