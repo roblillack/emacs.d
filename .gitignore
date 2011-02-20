@@ -16,6 +16,6 @@
 /places
 /backups
 /private.el
-/el-get/*
-!/el-get/el-get
-/el-get/el-get/*.elc
+/el-get
+
+

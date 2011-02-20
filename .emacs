@@ -17,7 +17,10 @@
     "/sbin"
     "/usr/sbin"))
 
-(load (expand-file-name "~/.emacs.d/el-get/el-get/el-get.el"))
+
+(unless (load (expand-file-name "~/.emacs.d/el-get/el-get/el-get.el") t)
+  (error "plz install el-get"))
+
 (setq el-get-sources
   '(auto-complete
     (:name gitsum
