@@ -8,7 +8,6 @@
 (setq *want-gtags* t)
 (setq *want-ac* t)
 
-
 ;; Set basic looks pretty early after startup ...
 
 ;; Some window system specific settings.
@@ -209,6 +208,10 @@
                                     '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ; FEEL
+(when *is-mac*
+  (setq ns-command-modifier 'super)
+  (setq ns-option-modifier 'meta)
+  (setq ns-right-option-modifier nil))
 (cua-mode t)                                          ; shift zum selektieren + std. keycombos
 (setq cua-keep-region-after-copy t)                   ; markierung bleibt nach kopieren
 (require 'redo)                                       ; wir wollen eine simple lineare geschichte
