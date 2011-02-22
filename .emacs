@@ -208,7 +208,7 @@
                                     '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ; FEEL
-(when *is-mac*
+(when *is-a-mac*
   (setq ns-command-modifier 'super)
   (setq ns-option-modifier 'meta)
   (setq ns-right-option-modifier nil))
