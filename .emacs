@@ -248,13 +248,20 @@
     (global-set-key [mouse-2] 'mouse-yank-primary)))  ; middle mouse button only pastes primary X11 selection
 
 ; shortcuts for font scaling
+(global-set-key [(control mouse-2)] 'text-scale-mode)
 (global-set-key [(control mouse-4)] 'text-scale-increase)
 (global-set-key [(control mouse-5)] 'text-scale-decrease)
 (global-set-key [(control wheel-up)] 'text-scale-increase)
 (global-set-key [(control wheel-down)] 'text-scale-decrease)
+(global-set-key [(super mouse-2)] 'text-scale-mode)
+(global-set-key [(super mouse-4)] 'text-scale-increase)
+(global-set-key [(super mouse-5)] 'text-scale-decrease)
+(global-set-key [(super wheel-up)] 'text-scale-increase)
+(global-set-key [(super wheel-down)] 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-0") 'text-scale-mode)
 (global-set-key (kbd "C-<kp-add>") 'text-scale-increase)
 (global-set-key (kbd "C-<kp-subtract>") 'text-scale-decrease)
 
