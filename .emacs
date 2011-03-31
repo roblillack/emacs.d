@@ -7,6 +7,7 @@
 (setq *want-company* nil)
 (setq *want-gtags* t)
 (setq *want-ac* t)
+(setq *want-yasnippet* nil)
 
 ;; Set basic looks pretty early after startup ...
 
@@ -95,15 +96,15 @@
     (:name regex-tool
            :type git
            :url "git://github.com/jwiegley/regex-tool.git"
-           :features regex-tool)
-    (:name yasnippet
-           :features yasnippet
-           :after (lambda ()
-                    (setq yas/trigger-key [f8])
-                    (setq yas/next-field-key [S-tab])
-                    (setq yas/fallback-behaviour nil)
-                    (yas/initialize)
-                    (yas/load-directory "~/.emacs.d/snippets")))))
+           :features regex-tool)))
+;    (:name yasnippet
+;           :features yasnippet
+;           :after (lambda ()
+;                    (setq yas/trigger-key [f8])
+;                    (setq yas/next-field-key [S-tab])
+;                    (setq yas/fallback-behaviour nil)
+;                    (yas/initialize)
+;                    (yas/load-directory "~/.emacs.d/snippets")))))
 (el-get)
 
 (when *is-a-mac*
@@ -600,7 +601,7 @@ depending on the current position."
                              ac-source-filename
                              ac-source-gtags
                              ac-source-imenu
-                             ac-source-yasnippet
+                             ;ac-source-yasnippet
                              ac-source-words-in-same-mode-buffers)))
 
 ; *** MAJOR MODES ***
@@ -840,7 +841,7 @@ using `company-mode' or `hippie-expand'."
   (interactive)
   (if (and *want-ac* auto-complete-mode)
       (call-interactively 'auto-complete)
-    (unless (yas/expand)
+    (unless (and *want-yasnippet* (yas/expand))
       (cond (*want-company* (call-interactively 'company-start-showing))
             (t (call-interactively 'hippie-expand))))))
 
