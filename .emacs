@@ -70,8 +70,15 @@
   '(auto-complete
     (:name autopair
            :after autopair-global-mode)
-    color-theme csharp-mode el-get gnuplot-mode go-mode
-    highlight-symbol lua-mode package smex
+    color-theme
+    csharp-mode
+    el-get
+    gnuplot-mode
+    go-mode
+    highlight-symbol
+    lua-mode
+    package
+    smex
     (:name bm
            :type http
            :url "http://download.savannah.gnu.org/releases/bm/bm-1.43.el"
@@ -94,7 +101,7 @@
            :after (lambda ()
                     (setq yas/trigger-key [f8])
                     (setq yas/next-field-key [S-tab])
-                    (setq yas/fallback-behaviour 'return-nil)
+                    (setq yas/fallback-behaviour nil)
                     (yas/initialize)
                     (yas/load-directory "~/.emacs.d/snippets")))))
 (el-get)
@@ -593,6 +600,7 @@ depending on the current position."
                              ac-source-filename
                              ac-source-gtags
                              ac-source-imenu
+                             ac-source-yasnippet
                              ac-source-words-in-same-mode-buffers)))
 
 ; *** MAJOR MODES ***
@@ -824,16 +832,17 @@ depending on the current position."
     (if (or mark-active
             (not (looking-at "\\_>")))
         (smart-indent)
-        (smart-expand))))
+      (smart-expand))))
 
 (defun smart-expand ()
   "Expands the snippet using `yasnippet' or expands the symbol
 using `company-mode' or `hippie-expand'."
   (interactive)
-  (unless (yas/expand)
-    (cond (*want-company* (call-interactively 'company-start-showing))
-          ((and *want-ac* auto-complete-mode) (call-interactively 'auto-complete))
-          (t (call-interactively 'hippie-expand)))))
+  (if (and *want-ac* auto-complete-mode)
+      (call-interactively 'auto-complete)
+    (unless (yas/expand)
+      (cond (*want-company* (call-interactively 'company-start-showing))
+            (t (call-interactively 'hippie-expand))))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
@@ -841,7 +850,9 @@ using `company-mode' or `hippie-expand'."
   (if mark-active
       (indent-region (region-beginning)
                      (region-end))
-    (indent-for-tab-command)))
+    (indent-for-tab-command))
+  (setq smart-tab-active nil))
+
 
 (defun smart-tab-must-expand (&optional prefix)
   "If PREFIX is \\[universal-argument], answers no.
