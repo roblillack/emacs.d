@@ -161,8 +161,10 @@
   (interactive)
   (setq bufferlist-window-config (current-window-configuration))
   ; temporarily turn off global hl-line-mode
-  (when global-hl-line-mode
-    (setq bufferlist-global-hl-line-mode t)
-    (global-hl-line-mode -1))
+  (if global-hl-line-mode
+    (progn
+      (setq bufferlist-global-hl-line-mode t)
+      (global-hl-line-mode -1))
+    (setq bufferlist-global-hl-line-mode nil))
   (split-window-horizontally 30)
   (bufferlist-load-buffers (current-buffer)))
