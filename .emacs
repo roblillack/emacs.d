@@ -201,6 +201,8 @@
 (show-paren-mode t)                                   ; klammern markieren
 (setq paren-match-face 'paren-face-match-light)       ; ... die benutzte farbe setzen
 (when window-system
+  (mouse-wheel-mode t)                                ; ein bissl rummausen
+  (setq mouse-wheel-scroll-amount '(1))               ; ... aber wirklich nur ein bissl
   (setq show-paren-style 'expression))                ; ... den kompletten content markieren
 (custom-set-faces
  '(show-paren-match-face
@@ -229,8 +231,6 @@
 (setq savehist-additional-variables                   ; ... eigentlich
       '(search-ring regexp-search-ring))              ; ... koennen wir uns suchen auch merken
 (recentf-mode 1)                                      ; achja, die letzten offnen files. genau.
-(mouse-wheel-mode t)                                  ; ein bissl rummausen
-(setq mouse-wheel-scroll-amount '(1))                 ; ... aber wirklich nur ein bissl
 (setq kill-whole-line t)                              ; ctrl-k laesst keine leere zeile stehen
 (setq-default truncate-lines t)                       ; zeilen abschneiden, nicht umbrechen
 (defalias 'yes-or-no-p 'y-or-n-p)                     ; "y or n" statt "yes or no"
@@ -892,8 +892,9 @@ Otherwise, analyses point position and answers."
   (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle))
 
 ; fringe, scroll bars & margins
-(set-fringe-mode '(8 . 2))
-(set-scroll-bar-mode nil)
+(when window-system
+  (set-fringe-mode '(8 . 2))
+  (set-scroll-bar-mode nil))
 (set-frame-parameter nil 'internal-border-width 0)
 (set-frame-parameter nil 'line-spacing 0)
 (set-frame-parameter nil 'scroll-bar-width 4)
@@ -1037,4 +1038,3 @@ Otherwise, analyses point position and answers."
 
 (require 'edit-server)
 (edit-server-start)
-
