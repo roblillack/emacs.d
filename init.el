@@ -64,21 +64,33 @@
     "/sbin"
     "/usr/sbin"))
 
-(unless (load (expand-file-name "~/.emacs.d/el-get/el-get/el-get.el") t)
-  (error "plz install el-get"))
+; INIT EL-GET
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(unless (require 'el-get nil t)
+  (url-retrieve
+    "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
+    (lambda (s)
+      (let (el-get-install-skip-emacswiki-recipes)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))))
 
+(setq el-get-user-package-directory "~/.emacs.d")
 (setq el-get-sources
   '(auto-complete
     (:name autopair
-           :after autopair-global-mode)
+           :after (autopair-global-mode))
     color-theme
     csharp-mode
     el-get
+    fsharp-mode
     gnuplot-mode
     go-mode
     highlight-symbol
     lua-mode
+    markdown-mode
     package
+    ;org-mode
+    ;org-cua-dwim
     smex
     (:name bm
            :type http
@@ -86,7 +98,7 @@
            :localname "bm.el")
     (:name clojure-mode
            :autoloads nil
-           :after (lambda ()
+           :after (progn
                     (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t)
                     (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))))
     (:name gitsum
@@ -105,7 +117,7 @@
 ;                    (setq yas/fallback-behaviour nil)
 ;                    (yas/initialize)
 ;                    (yas/load-directory "~/.emacs.d/snippets")))))
-(el-get)
+(el-get 'sync (mapcar 'el-get-source-name el-get-sources))
 
 (when *is-a-mac*
   (setenv "PATH" (concat
@@ -439,7 +451,7 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[rC;BS~") (kbd "C-<backspace>"))
 (define-key key-translation-map (kbd "\e[rC;DEL~") (kbd "C-<delete>"))
 
-; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
+                                        ; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
 (defun delete-word (arg)
   "Delete characters forward until encountering the end of a word.
 With argument, do this that many times."
@@ -464,9 +476,9 @@ depending on the current position."
       (delete-region (point) end))))
 
 (dolist (cmd
- '(delete-word backward-delete-word delete-line))
+         '(delete-word backward-delete-word delete-line))
   (put cmd 'CUA 'move)
-)
+  )
 
 (global-set-key (kbd "<home>") 'beginning-of-line)
 (global-set-key (kbd "<end>") 'end-of-line)
@@ -474,7 +486,7 @@ depending on the current position."
 (global-set-key (kbd "C-<end>") 'end-of-buffer)
 (global-set-key (kbd "C-x C-k") '(lambda () (interactive) (kill-buffer)))
 (global-set-key (kbd "C-x C-n") 'new-frame)
-;(global-set-key (kbd "<delete>") 'delete-char)
+                                        ;(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
 (global-set-key (kbd "C-<kp-delete>") 'delete-word)
 (global-set-key (kbd "<backspace>") 'delete-backward-char)
@@ -491,7 +503,7 @@ depending on the current position."
 
 (global-set-key (kbd "M-j") 'join-with-next-line)
 
-; Search
+                                        ; Search
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
@@ -508,7 +520,7 @@ depending on the current position."
 (define-key isearch-mode-map (kbd "C-g") 'isearch-repeat-forward)
 (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
-; moving in panes/„windows“
+                                        ; moving in panes/„windows“
 (global-set-key (kbd "M-<left>") 'windmove-left)
 (global-set-key (kbd "M-<right>") 'windmove-right)
 (global-set-key (kbd "M-<up>") 'windmove-up)
@@ -583,27 +595,6 @@ depending on the current position."
 ;          "Minor mode for incremental blame for Git." t)
 
 
-; auto-complete mode
-(when *want-ac*
-  (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories (expand-file-name "~/.emacs.d/auto-complete-dict"))
-  (ac-config-default)
-  (define-key ac-completing-map [tab] 'ac-expand)
-  (define-key ac-completing-map [escape] 'ac-stop)
-  (setq ac-use-quick-help t)
-  (setq ac-ignore-case t)
-  (setq ac-use-fuzzy t)
-  (setq ac-trigger-key nil)
-  (setq ac-dwim t)
-  (setq ac-auto-start nil)
-
-  (setq-default ac-sources '(ac-source-dictionary
-                             ac-source-filename
-                             ac-source-gtags
-                             ac-source-imenu
-                             ;ac-source-yasnippet
-                             ac-source-words-in-same-mode-buffers)))
-
 ; *** MAJOR MODES ***
 
 ; send mails from mutt
@@ -631,7 +622,7 @@ depending on the current position."
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (define-key global-map "\C-cr" 'org-remember)
 (setq org-clock-persist t)
-(org-clock-persistence-insinuate)
+;(org-clock-persistence-insinuate)
 (setq org-startup-folded nil)
 (define-key global-map (kbd "<f9>") 'toggle-org-journal)
 (define-key global-map (kbd "C-c j") 'toggle-org-journal)
