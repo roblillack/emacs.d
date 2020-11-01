@@ -1,7 +1,5 @@
 (setq inhibit-startup-message t)
 (setq *is-a-mac* (eq system-type 'darwin))
-(setq *is-carbon-emacs* (and *is-a-mac* (eq window-system 'mac)))
-(setq *is-cocoa-emacs* (and *is-a-mac* (eq window-system 'ns)))
 
 (setq *want-semantic* nil)
 (setq *want-company* nil)
@@ -89,6 +87,7 @@
     lua-mode
     markdown-mode
     package
+    anything
     ;org-mode
     ;org-cua-dwim
     smex
@@ -126,11 +125,13 @@
 
 ;(require 'slime)
 ;(slime-setup)
-(setq inferior-lisp-program "sbcl")
+;(setq inferior-lisp-program "sbcl")
 ;(setq inferior-lisp-program "java -cp /home/rob/dev/clojure/clojure.jar clojure.main")
 
 ; jetzt ziehen wir alle register
 (set-register ?e '(file . "~/.emacs"))
+
+(add-hook 'before-save-hook #'gofmt-before-save)
 
 ;;; CEDET
 (when *want-semantic*
@@ -172,35 +173,14 @@
   ;(global-set-key [(control shift return)] 'semantic-ia-complete-symbol-menu)
 )
 
-(add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
-;(add-to-list 'load-path "/opt/local/share/emacs/site-lisp")
-
-; emacs-jabber: http://emacs-jabber.sourceforge.net/
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/emacs-jabber"))
-(require 'jabber-autoloads)
-(setq jabber-roster-buffer "ROSTER")
-(setq jabber-roster-show-title nil)
-(setq jabber-roster-show-bindings nil)
-(setq jabber-show-resources nil)
-(setq jabber-chat-buffer-show-avatar nil)
-(setq jabber-roster-line-format "%c %-30n %u %S")
-(custom-set-faces
- '(jabber-title-small ((t (:underline t :foreground "#777777"))))
- '(jabber-title-medium ((t (:weight bold :foreground "#333333"))))
- '(jabber-title-large ((t (:weight bold :foreground "black")))))
-; i'm setting a list in ~/.emacs.d/private.el like this:
-; (setq jabber-account-list '(("myaccount@bla.example") ("anotherone@bling.example/emacs")))
-(setq jabber-account-list '())
-
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-
-;(autoload 'typopunct-mode "typopunct" "Typopunct Mode" t)
 
 ;(global-set-key (kbd "C-x C-b") 'ibuffer)
 ;(autoload 'ibuffer "ibuffer" "List buffers." t)
@@ -366,12 +346,13 @@ buffer-local variable `show-trailing-whitespace'."
 ; frame switching
 (global-set-key (kbd "C-`") 'next-multiframe-window)
 
+; TODO: Broken
 ; do not open *Messages* when clicking into minibuffer
-(defun my-mouse-drag-region (event)
-  (interactive "e")
-  (run-hooks 'mouse-leave-buffer-hook)
-  (mouse-drag-track event t))
-(global-set-key [down-mouse-1] 'my-mouse-drag-region)
+;(defun my-mouse-drag-region (event)
+;  (interactive "e")
+;  (run-hooks 'mouse-leave-buffer-hook)
+;  (mouse-drag-track event t))
+;(global-set-key [down-mouse-1] 'my-mouse-drag-region)
 
 ; mehrere files mit gleichem namen? verzeichnisse mit in puffernamen nehmen
 (require 'uniquify)
@@ -402,15 +383,8 @@ buffer-local variable `show-trailing-whitespace'."
 ;(setq default-input-method "MacOSX")
 
 ;; full screen toggle using command+[RET]
-;; http://www.emacswiki.org/cgi-bin/wiki/FullScreen
-(defun toggle-fullscreen ()
-  (interactive)
-  (if (eq (window-system) 'ns)
-      (ns-toggle-fullscreen)
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_FULLSCREEN" 0))))
-(global-set-key [(super return)] 'toggle-fullscreen)
-(global-set-key [f11] 'toggle-fullscreen)
+(global-set-key [(super return)] 'toggle-frame-fullscreen)
+(global-set-key [f11] 'toggle-frame-fullscreen)
 
 ; Terminal Key Sequence Translations
 (if (null key-translation-map) (setq key-translation-map (make-sparse-keymap)))
@@ -451,7 +425,7 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[rC;BS~") (kbd "C-<backspace>"))
 (define-key key-translation-map (kbd "\e[rC;DEL~") (kbd "C-<delete>"))
 
-                                        ; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
+; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
 (defun delete-word (arg)
   "Delete characters forward until encountering the end of a word.
 With argument, do this that many times."
@@ -485,7 +459,7 @@ depending on the current position."
 (global-set-key (kbd "C-<home>") 'beginning-of-buffer)
 (global-set-key (kbd "C-<end>") 'end-of-buffer)
 (global-set-key (kbd "C-x C-k") '(lambda () (interactive) (kill-buffer)))
-(global-set-key (kbd "C-x C-n") 'new-frame)
+(global-set-key (kbd "C-x C-n") 'make-frame)
                                         ;(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
 (global-set-key (kbd "C-<kp-delete>") 'delete-word)
@@ -520,7 +494,7 @@ depending on the current position."
 (define-key isearch-mode-map (kbd "C-g") 'isearch-repeat-forward)
 (define-key isearch-mode-map (kbd "C-v") 'isearch-yank-kill)
 
-                                        ; moving in panes/„windows“
+; moving in panes/„windows“
 (global-set-key (kbd "M-<left>") 'windmove-left)
 (global-set-key (kbd "M-<right>") 'windmove-right)
 (global-set-key (kbd "M-<up>") 'windmove-up)
@@ -617,7 +591,7 @@ depending on the current position."
 ;(setq org-agenda-file-regexp "\\`[^.]+?\\'")
 (setq org-agenda-tags-column -120)
 (setq org-CUA-compatible t)
-(org-remember-insinuate)
+;(org-remember-insinuate)
 (setq org-directory "~/org")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (define-key global-map "\C-cr" 'org-remember)
@@ -681,10 +655,6 @@ depending on the current position."
     (unless (= (current-column) 2)
       (insert "\n- ")))
     (widen))
-
-; D support
-(autoload 'd-mode "d-mode" "Major mode for editing D code." t)
-(add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
 
 ; PHP support
 (autoload 'php-mode "php-mode" "PHP editing mode" t)
