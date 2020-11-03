@@ -12,10 +12,12 @@
 /cache
 /tramp
 /history
-/liki.el
 /places
 /backups
 /private.el
 /el-get
-
-
+/elpa
+/ac-comphist.dat
+/network-security.data
+/projectile-bookmarks.eld
+/recentf
