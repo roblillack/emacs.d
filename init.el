@@ -1,3 +1,22 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("ba881f92a04cf56df49740324caea02d25442a327f1c33d1a1946f0b9a846f53" "b72ffe34e9ff6ec347cb8fc86d3f214e999363d46022e784324f2a4fe60dcff4" default))
+ '(package-selected-packages
+   '(markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
+
+(require 'package)
+(add-to-list 'package-archives
+                          '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+(package-install-selected-packages)
+
 (setq inhibit-startup-message t)
 (setq *is-a-mac* (eq system-type 'darwin))
 
@@ -9,6 +28,8 @@
 
 ;; Set basic looks pretty early after startup ...
 
+(xterm-mouse-mode 1)
+
 ;; Some window system specific settings.
 (if window-system
   (progn
@@ -18,115 +39,43 @@
     (setq column-number-mode t))
   (menu-bar-mode -1))
 
+(if window-system
 (custom-set-faces
- '(default ((default (:stipple nil :background "#ffffff"
-                      :foreground "#1a1a1a" :inverse-video nil
-                      :box nil :strike-through nil :overline nil
-                      :underline nil :slant normal :weight normal
-                      :width normal))
-            (((type ns)) (:height 110 :family "Menlo"))
-            ; same dimensions
-            ;(((type x)) (:height 105 :family "Inconsolata")) ; 100
-            (((type x)) (:height 90 :family "DejaVu Sans Mono")) ; 85
-            (t (:height 90 :family "fixed"))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((default (:stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal)) (((type ns)) (:height 110 :family "Menlo")) (((type x)) (:height 90 :family "DejaVu Sans Mono")) (t (:height 90 :family "fixed"))))
  '(fixed-pitch ((t nil)))
- '(trailing-whitespace ((t :background "#ffffee")))
- '(mode-line ((default (:background "#5555aa" :foreground "white"
-                  :box (:line-width 1 :style released-button)))
-              (((type ns)) (:height 120 :family "Optima"))
-              (((type x)) (:height 75 :family "sans"))
-              (t (:height 80 :family "Helvetica"))))
- '(modeline-inactive ((default (:inherit modeline
-                                :background "#dddddd"
-                                :foreground "#777777"
-                                :box (:line-width 1)))))
- '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
- '(linum ((default (:inherit fringe))))
- '(variable-pitch ((t (:inherit mode-line))))
  '(font-lock-comment-face ((t (:foreground "#555555"))))
  '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
-
  '(font-lock-variable-name-face ((default (:foreground "#990000"))))
- '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
- '(php-variable-marker-face ((default (:foreground "#333399"))))
+ '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
+ '(linum ((default (:inherit fringe))))
+ '(mode-line ((default (:background "#5555aa" :foreground "white" :box (:line-width 1 :style released-button))) (((type ns)) (:height 120 :family "Optima")) (((type x)) (:height 75 :family "sans")) (t (:height 80 :family "Helvetica"))))
+ '(mode-line-inactive ((default (:inherit modeline :background "#dddddd" :foreground "#777777" :box (:line-width 1)))))
  '(php-property-name-face ((default (:foreground "#339933"))))
+ '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
  '(php-type-access-face ((default (:foreground "#555577"))))
+ '(php-variable-marker-face ((default (:foreground "#333399"))))
+ '(show-paren-match ((t (:background "#ccffee"))))
+ '(trailing-whitespace ((t :background "#ffffee")))
+ '(variable-pitch ((t (:inherit mode-line)))))
 )
 
-(setq exec-path
-  '((expand-file-name "~/bin")
-    "/usr/local/bin"
-    "/opt/local/bin"
-    "/bin"
-    "/usr/bin"
-    "/sbin"
-    "/usr/sbin"))
+;; (setq exec-path
+;;   '((expand-file-name "~/bin")
+;;     "/usr/local/bin"
+;;     "/opt/local/bin"
+;;     "/bin"
+;;     "/usr/bin"
+;;     "/sbin"
+;;     "/usr/sbin"))
 
-; INIT EL-GET
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(unless (require 'el-get nil t)
-  (url-retrieve
-    "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
-    (lambda (s)
-      (let (el-get-install-skip-emacswiki-recipes)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))))
-
-(setq el-get-user-package-directory "~/.emacs.d")
-(setq el-get-sources
-  '(auto-complete
-    (:name autopair
-           :after (autopair-global-mode))
-    color-theme
-    csharp-mode
-    el-get
-    fsharp-mode
-    gnuplot-mode
-    go-mode
-    highlight-symbol
-    lua-mode
-    markdown-mode
-    package
-    anything
-    ;org-mode
-    ;org-cua-dwim
-    smex
-    (:name bm
-           :type http
-           :url "http://download.savannah.gnu.org/releases/bm/bm-1.43.el"
-           :localname "bm.el")
-    (:name clojure-mode
-           :autoloads nil
-           :after (progn
-                    (autoload 'clojure-mode "clojure-mode" "Major mode for editing Clojure code." t)
-                    (add-to-list 'auto-mode-alist '("\\.clj\\'" . clojure-mode))))
-    (:name gitsum
-           :type git
-           :url "git://github.com/chneukirchen/gitsum.git"
-           :features gitsum)
-    (:name regex-tool
-           :type git
-           :url "git://github.com/jwiegley/regex-tool.git"
-           :features regex-tool)))
-;    (:name yasnippet
-;           :features yasnippet
-;           :after (lambda ()
-;                    (setq yas/trigger-key [f8])
-;                    (setq yas/next-field-key [S-tab])
-;                    (setq yas/fallback-behaviour nil)
-;                    (yas/initialize)
-;                    (yas/load-directory "~/.emacs.d/snippets")))))
-(el-get 'sync (mapcar 'el-get-source-name el-get-sources))
-
-(when *is-a-mac*
-  (setenv "PATH" (concat
-                  (expand-file-name "~/bin")
-                  ":/opt/local/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin")))
-
-;(require 'slime)
-;(slime-setup)
-;(setq inferior-lisp-program "sbcl")
-;(setq inferior-lisp-program "java -cp /home/rob/dev/clojure/clojure.jar clojure.main")
+;; (when *is-a-mac*
+;;   (setenv "PATH" (concat
+;;                   (expand-file-name "~/bin")
+;;                   ":/opt/local/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin")))
 
 ; jetzt ziehen wir alle register
 (set-register ?e '(file . "~/.emacs"))
@@ -192,13 +141,11 @@
 (set-face-background 'hl-line "#eeeef8")              ; ... und lachsfarben anmalen
 (show-paren-mode t)                                   ; klammern markieren
 (setq paren-match-face 'paren-face-match-light)       ; ... die benutzte farbe setzen
+(mouse-wheel-mode t)                                ; ein bissl rummausen
+(setq mouse-wheel-scroll-amount '(3))               ; ... aber wirklich nur ein bissl
 (when window-system
-  (mouse-wheel-mode t)                                ; ein bissl rummausen
-  (setq mouse-wheel-scroll-amount '(1))               ; ... aber wirklich nur ein bissl
   (setq show-paren-style 'expression))                ; ... den kompletten content markieren
-(custom-set-faces
- '(show-paren-match-face
-   ((t (:background "#ccffee")))))
+
 (setq parse-sexp-ignore-comments t)                   ; ignore comments when balancing stuff
 (setq transient-mark-mode t)                          ; markierung live anzeigen
 (setq visible-bell t)                                 ; schwarzer kasten statt sound
@@ -684,11 +631,6 @@ depending on the current position."
 ; robs bufferlist
 (require 'bufferlist)
 
-; line numbering
-; wget http://stud4.tuwien.ac.at/~e0225855/linum/linum.el
-(autoload 'linum-mode "linum" nil t)
-(autoload 'global-linum-mode "linum" nil t)
-
 ; turn on tempbuf mode for some types of buffers
 ; cd ~/.emacs.d/plugins && wget http://www.emacswiki.org/emacs/download/tempbuf.el
 (require 'tempbuf)
@@ -826,13 +768,17 @@ Otherwise, analyses point position and answers."
 (global-set-key [tab] 'smart-tab)
 
 ; bookmarks, see el-get-sources above
-(when window-system
   (require 'bm)
   (setq-default bm-buffer-persistence t)
   (setq bm-highlight-style 'bm-highlight-line-and-fringe)
-  (custom-set-faces
-   '(bm-fringe-persistent-face ((t (:background "#ccccff" :foreground "black"))))
-   '(bm-persistent-face ((t (:background "#ccccff" :foreground "black")))))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bm-fringe-persistent-face ((t (:background "#ccccff" :foreground "black"))))
+ '(bm-persistent-face ((t (:background "#ccccff" :foreground "black")))))
   (global-set-key (kbd "C-'") 'bm-toggle)
   (global-set-key (kbd "C-#") 'bm-toggle)
   (global-set-key (kbd "C-,") '(lambda () (interactive) (bm-try-jump 'bm-previous)))
@@ -850,7 +796,7 @@ Otherwise, analyses point position and answers."
     (save-excursion (mouse-set-point event) (bm-toggle)))
 
   (global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
-  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle))
+  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle)
 
 ; fringe, scroll bars & margins
 (when window-system
@@ -861,6 +807,16 @@ Otherwise, analyses point position and answers."
 (set-frame-parameter nil 'scroll-bar-width 4)
 (set-default 'indicate-empty-lines t)
 (set-default 'indicate-buffer-boundaries '((up . left) (down . left) (t . nil)))
+
+(defun comment-line-or-region ()
+    (if (use-region-p)
+        (comment-or-uncomment-region)
+      (comment-line)))
+(global-set-key (kbd "C-/") 'comment-line-or-region)
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "C-p") 'projectile-find-file)
 
 ; no fringe for minibuffer
 (defun setup-echo-area ()
