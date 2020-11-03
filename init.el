@@ -814,6 +814,14 @@ Otherwise, analyses point position and answers."
       (comment-line)))
 (global-set-key (kbd "C-/") 'comment-line-or-region)
 
+(defun close-and-kill-this-pane ()
+  "If there are multiple windows, then close this pane and kill the buffer in it also."
+  (interactive)
+  (kill-this-buffer)
+  (if (not (one-window-p))
+      (delete-window)))
+(global-set-key (kbd "C-x C-k") 'close-and-kill-this-pane)
+
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (global-set-key (kbd "C-p") 'projectile-find-file)
