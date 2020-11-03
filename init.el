@@ -6,7 +6,7 @@
  '(custom-safe-themes
    '("ba881f92a04cf56df49740324caea02d25442a327f1c33d1a1946f0b9a846f53" "b72ffe34e9ff6ec347cb8fc86d3f214e999363d46022e784324f2a4fe60dcff4" default))
  '(package-selected-packages
-   '(markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
+   '(undo-tree markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -163,9 +163,7 @@
   (setq ns-right-option-modifier nil))
 (cua-mode t)                                          ; shift zum selektieren + std. keycombos
 (setq cua-keep-region-after-copy t)                   ; markierung bleibt nach kopieren
-(require 'redo)                                       ; wir wollen eine simple lineare geschichte
-(global-set-key [(control z)] 'undo)                  ; ... mit den tastenkombinationen,
-(global-set-key [(shift control z)] 'redo)            ; ... an die wir uns mittlerweile gewoehnten
+                                        ;(require 'redo)                                       ; wir wollen eine simple lineare geschichte
 (savehist-mode 1)                                     ; minibuffer-kram merken
 (setq savehist-additional-variables                   ; ... eigentlich
       '(search-ring regexp-search-ring))              ; ... koennen wir uns suchen auch merken
@@ -813,6 +811,11 @@ Otherwise, analyses point position and answers."
         (comment-or-uncomment-region)
       (comment-line)))
 (global-set-key (kbd "C-/") 'comment-line-or-region)
+
+; Setup sane undo/redo functionality
+(global-undo-tree-mode)
+(global-set-key [(control z)] 'undo-tree-undo)
+(global-set-key [(shift control z)] 'undo-tree-redo)
 
 (defun close-and-kill-this-pane ()
   "If there are multiple windows, then close this pane and kill the buffer in it also."
