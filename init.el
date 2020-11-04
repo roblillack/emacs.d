@@ -39,30 +39,6 @@
     (setq column-number-mode t))
   (menu-bar-mode -1))
 
-(if window-system
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((default (:stipple nil :background "#ffffff" :foreground "#1a1a1a" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal)) (((type ns)) (:height 110 :family "Menlo")) (((type x)) (:height 90 :family "DejaVu Sans Mono")) (t (:height 90 :family "fixed"))))
- '(fixed-pitch ((t nil)))
- '(font-lock-comment-face ((t (:foreground "#555555"))))
- '(font-lock-string-face ((default (:foreground "#dd2200" :background "#ffefef"))))
- '(font-lock-variable-name-face ((default (:foreground "#990000"))))
- '(fringe ((default (:foreground "#aa9999" :background "#f7f7f7"))))
- '(linum ((default (:inherit fringe))))
- '(mode-line ((default (:background "#5555aa" :foreground "white" :box (:line-width 1 :style released-button))) (((type ns)) (:height 120 :family "Optima")) (((type x)) (:height 75 :family "sans")) (t (:height 80 :family "Helvetica"))))
- '(mode-line-inactive ((default (:inherit modeline :background "#dddddd" :foreground "#777777" :box (:line-width 1)))))
- '(php-property-name-face ((default (:foreground "#339933"))))
- '(php-sexp-face ((default (:foreground "#555555" :background "#efefef"))))
- '(php-type-access-face ((default (:foreground "#555577"))))
- '(php-variable-marker-face ((default (:foreground "#333399"))))
- '(show-paren-match ((t (:background "#ccffee"))))
- '(trailing-whitespace ((t :background "#ffffee")))
- '(variable-pitch ((t (:inherit mode-line)))))
-)
-
 ;; (setq exec-path
 ;;   '((expand-file-name "~/bin")
 ;;     "/usr/local/bin"
@@ -806,16 +782,21 @@ Otherwise, analyses point position and answers."
 (set-default 'indicate-empty-lines t)
 (set-default 'indicate-buffer-boundaries '((up . left) (down . left) (t . nil)))
 
-(defun comment-line-or-region ()
-    (if (use-region-p)
-        (comment-or-uncomment-region)
-      (comment-line)))
-(global-set-key (kbd "C-/") 'comment-line-or-region)
-
 ; Setup sane undo/redo functionality
 (global-undo-tree-mode)
 (global-set-key [(control z)] 'undo-tree-undo)
 (global-set-key [(shift control z)] 'undo-tree-redo)
+(define-key undo-tree-map (kbd "C-/") nil)
+(define-key undo-tree-map (kbd "C-?") nil)
+
+; Setup global (un)comment action
+(defun comment-line-or-region ()
+  "(Un)comments the selection or the current line."
+  (interactive)
+    (let ((a (point)))
+      (comment-line nil)
+      (goto-char a)))
+(global-set-key (kbd "C-/") 'comment-line-or-region)
 
 (defun close-and-kill-this-pane ()
   "If there are multiple windows, then close this pane and kill the buffer in it also."
