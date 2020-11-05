@@ -743,9 +743,27 @@ Otherwise, analyses point position and answers."
 (global-set-key [tab] 'smart-tab)
 
 ; bookmarks, see el-get-sources above
-  (require 'bm)
-  (setq-default bm-buffer-persistence t)
-  (setq bm-highlight-style 'bm-highlight-line-and-fringe)
+(require 'bm)
+(setq-default bm-buffer-persistence t)
+(setq bm-highlight-style 'bm-highlight-line-and-fringe)
+
+
+(defun bm-try-jump (jmpfn)
+  (if (= (bm-count) 0)
+      (cua-exchange-point-and-mark nil)
+    (progn
+      (cua--deactivate)
+      (funcall jmpfn))))
+
+(defun bm-mouse-toggle (event)
+  (interactive "e")
+  (save-excursion (mouse-set-point event) (bm-toggle)))
+
+(global-set-key (kbd "C-'") 'bm-toggle)
+(global-set-key (kbd "C-,") '(lambda () (interactive) (bm-try-jump 'bm-previous)))
+(global-set-key (kbd "C-.") '(lambda () (interactive) (bm-try-jump 'bm-next)))
+(global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
+(global-set-key [left-fringe mouse-1] 'bm-mouse-toggle)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -754,24 +772,6 @@ Otherwise, analyses point position and answers."
  ;; If there is more than one, they won't work right.
  '(bm-fringe-persistent-face ((t (:background "#ccccff" :foreground "black"))))
  '(bm-persistent-face ((t (:background "#ccccff" :foreground "black")))))
-  (global-set-key (kbd "C-'") 'bm-toggle)
-  (global-set-key (kbd "C-#") 'bm-toggle)
-  (global-set-key (kbd "C-,") '(lambda () (interactive) (bm-try-jump 'bm-previous)))
-  (global-set-key (kbd "C-.") '(lambda () (interactive) (bm-try-jump 'bm-next)))
-
-  (defun bm-try-jump (jmpfn)
-    (if (= (bm-count) 0)
-        (cua-exchange-point-and-mark nil)
-      (progn
-        (cua--deactivate)
-        (funcall jmpfn))))
-
-  (defun bm-mouse-toggle (event)
-    (interactive "e")
-    (save-excursion (mouse-set-point event) (bm-toggle)))
-
-  (global-set-key [left-margin mouse-1] 'bm-mouse-toggle)
-  (global-set-key [left-fringe mouse-1] 'bm-mouse-toggle)
 
 ; fringe, scroll bars & margins
 (when window-system
