@@ -243,24 +243,6 @@ buffer-local variable `show-trailing-whitespace'."
 (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
 (add-to-list 'tramp-default-proxies-alist '((regexp-quote (system-name)) nil nil))
 
-(setq mumamo-chunk-coloring 'submode-colored
-      nxhtml-skip-welcome t
-      indent-region-mode t
-      rng-nxml-auto-validate-flag nil)
-
-(eval-after-load 'diff-mode
-  '(progn
-     (set-face-foreground 'diff-added "green4")
-     (set-face-foreground 'diff-removed "red3")))
-
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")))
-
-; (normal-erase-is-backspace-mode)
-; (setq delete-key-deletes-backward t)
-
 ; i do
 ;(ido-mode t)
 ;(setq ido-enable-flex-matching -1)
