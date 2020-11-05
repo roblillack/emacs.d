@@ -6,7 +6,7 @@
  '(custom-safe-themes
    '("ba881f92a04cf56df49740324caea02d25442a327f1c33d1a1946f0b9a846f53" "b72ffe34e9ff6ec347cb8fc86d3f214e999363d46022e784324f2a4fe60dcff4" default))
  '(package-selected-packages
-   '(undo-tree markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
+   '(magit undo-tree markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -938,6 +938,8 @@ Otherwise, analyses point position and answers."
    (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)))
 
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
+
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ; load initialization stuff that should not go into github :)
 (load (expand-file-name "~/.emacs.d/private.el") t)
