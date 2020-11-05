@@ -337,8 +337,16 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[5;5~") (kbd "C-<prior>"))
 (define-key key-translation-map (kbd "\e[5;6~") (kbd "C-<next>"))
 
+(define-key key-translation-map (kbd "\e[rC;APOSTROPHE~") (kbd "C-'"))
+(define-key key-translation-map (kbd "\e[rC;SEMICOLON~") (kbd "C-;"))
+(define-key key-translation-map (kbd "\e[rC;SLASH~") (kbd "C-/"))
 (define-key key-translation-map (kbd "\e[rC;BS~") (kbd "C-<backspace>"))
 (define-key key-translation-map (kbd "\e[rC;DEL~") (kbd "C-<delete>"))
+(define-key key-translation-map (kbd "\e[rA;LEFT~") (kbd "M-<left>"))
+(define-key key-translation-map (kbd "\e[rA;RIGHT~") (kbd "M-<right>"))
+(define-key key-translation-map (kbd "\e[rA;UP~") (kbd "M-<up>"))
+(define-key key-translation-map (kbd "\e[rA;DOWN~") (kbd "M-<down>"))
+
 
 ; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
 (defun delete-word (arg)
@@ -373,7 +381,6 @@ depending on the current position."
 (global-set-key (kbd "<end>") 'end-of-line)
 (global-set-key (kbd "C-<home>") 'beginning-of-buffer)
 (global-set-key (kbd "C-<end>") 'end-of-buffer)
-(global-set-key (kbd "C-x C-k") '(lambda () (interactive) (kill-buffer)))
 (global-set-key (kbd "C-x C-n") 'make-frame)
                                         ;(global-set-key (kbd "<delete>") 'delete-char)
 (global-set-key (kbd "<kp-delete>") 'delete-char)
@@ -782,6 +789,7 @@ Otherwise, analyses point position and answers."
 (global-set-key [(shift control z)] 'undo-tree-redo)
 (define-key undo-tree-map (kbd "C-/") nil)
 (define-key undo-tree-map (kbd "C-?") nil)
+(define-key undo-tree-map (kbd "C-_") nil)
 
 ; Setup global (un)comment action
 (defun comment-line-or-region ()
