@@ -305,7 +305,7 @@ buffer-local variable `show-trailing-whitespace'."
 (if (null key-translation-map) (setq key-translation-map (make-sparse-keymap)))
 
 ; tab is tab
-(define-key key-translation-map "\t" (kbd "<tab>"))
+;; (define-key key-translation-map "\t" (kbd "<tab>"))
 
 (define-key key-translation-map (kbd "\e[1;5A") (kbd "C-<up>"))
 (define-key key-translation-map (kbd "\e[1;5B") (kbd "C-<down>"))
