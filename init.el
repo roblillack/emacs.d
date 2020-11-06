@@ -26,7 +26,6 @@
 (setq inhibit-startup-message t)
 (setq *is-a-mac* (eq system-type 'darwin))
 
-(setq *want-semantic* nil)
 (setq *want-company* nil)
 (setq *want-gtags* t)
 (setq *want-ac* t)
@@ -63,46 +62,6 @@
 (set-register ?e '(file . "~/.emacs"))
 
 (add-hook 'before-save-hook #'gofmt-before-save)
-
-;;; CEDET
-(when *want-semantic*
-  (load "~/.emacs.d/plugins/cedet/common/cedet.el")
-  (require 'semantic)
-  (require 'semanticdb)
-  (require 'semantic-ia)
-  (require 'senator)
-  (global-senator-minor-mode 1)
-  (global-semantic-idle-scheduler-mode 1)        ; reparsen, wenn idle
-  ;(global-semantic-decoration-mode (semantic-decoration-styles))
-  ;;(global-semantic-highlight-edits-mode 1)       ; aenderungen highlighten, bis sie geparst sind
-  ;(global-semantic-idle-completions-mode 1)      ; menue anzeigen, wenn idle
-  ;(global-semanticdb-minor-mode 1)
-  ;(global-semantic-auto-parse-mode t)
-  (global-semantic-summary-mode t)
-  ;(global-semantic-show-parser-state-mode 1)
-  (global-semantic-idle-summary-mode 1)          ; functions-signatur zeigen, wenn idle
-  ;(global-semantic-show-dirty-mode nil nil (semantic-util-modes))
-  ;(global-semantic-show-unmatched-syntax-mode 1) ; unparsable code markieren
-  (global-semantic-stickyfunc-mode t nil (semantic-util-modes))
-  (global-semantic-summary-mode t nil (semantic-util-modes))
-  (setq semanticdb-default-save-directory "~/.emacs.d/cache/semanticdb")
-  (setq semanticdb-persistent-path '(always))
-  (setq semanticdb-system-database-warn-level t)
-  ;(semantic-load-enable-guady-code-helpers)
-
-  (defun my-semantic-hook ()
-    (local-set-key (kbd "C-/") 'semantic-ia-complete-symbol)
-    ;(local-set-key (kbd "C-/") 'semantic-ia-complete-symbol-menu)
-    ;(local-set-key (kbd "C-.") 'senator-completion-menu-popup)
-    ;(local-set-key (kbd "C-.") 'semantic-complete-analyze-inline)
-    ;(local-set-key (kbd "C-g C-g") 'senator-jump)
-    )
-  (add-hook 'c-mode-common-hook 'my-semantic-hook)
-  (add-hook 'lisp-mode-hook 'my-semantic-hook)
-  ;(add-hook 'php-mode-hook 'my-semantic-hook)
-  ;(global-set-key [(control return)] 'semantic-ia-complete-symbol)
-  ;(global-set-key [(control shift return)] 'semantic-ia-complete-symbol-menu)
-)
 
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
@@ -666,12 +625,6 @@ depending on the current position."
   (define-key company-mode-map "\t" 'ignore)
   (define-key company-active-map [tab] 'company-expand-anything)
   (define-key company-active-map [S-return] 'company-expand-top)
-
-  (when *want-semantic*
-    (dolist (mode '(php-mode))
-      (company-add-completion-rule mode
-                                   'company-semantic-ctxt-current-symbol
-                                   'company-semantic-completion-func)))
 
   (company-install-dabbrev-completions)
   (company-install-file-name-completions)
