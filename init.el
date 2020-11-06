@@ -17,15 +17,9 @@
   (package-refresh-contents))
 (package-install-selected-packages)
 
-;; Running on WSL? We're forced to use dark terminals here, so we set this to
-;; help with the decision in the next block.
-(when (and (null (terminal-parameter nil 'background-mode))
-           (string-match "-[Mm]icrosoft" (or operating-system-release "")))
-  (set-terminal-parameter nil 'background-mode 'dark))
-
 ;; Ok, rule is: GUI windows get light background, terminal windows get background matching
 ;; the terminal settings. (I prefer light background, but thats not possible everywhere)
-(if (or window-system (eq 'light (terminal-parameter nil 'background-mode)))
+(if (or window-system (not (eq 'dark (terminal-parameter nil 'background-mode))))
     (load-theme 'modus-operandi)
   (load-theme 'modus-vivendi))
 
