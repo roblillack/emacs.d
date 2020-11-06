@@ -6,7 +6,7 @@
  '(custom-safe-themes
    '("ba881f92a04cf56df49740324caea02d25442a327f1c33d1a1946f0b9a846f53" "b72ffe34e9ff6ec347cb8fc86d3f214e999363d46022e784324f2a4fe60dcff4" default))
  '(package-selected-packages
-   '(magit undo-tree markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
+   '(helm-projectile helm company magit undo-tree markdown-mode highlight-symbol go-mode bm modus-vivendi-theme modus-operandi-theme olivetti projectile xml-rpc worklog sudoku lua-mode json javascript highline highlight-parentheses find-file-in-project css-mode columnify clojure-mode)))
 
 (require 'package)
 (add-to-list 'package-archives
@@ -305,6 +305,8 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[rA;UP~") (kbd "M-<up>"))
 (define-key key-translation-map (kbd "\e[rA;DOWN~") (kbd "M-<down>"))
 
+(define-key key-translation-map (kbd "\e[rC;O~") (kbd "C-S-o"))
+
 
 ; thx, http://www.emacswiki.org/emacs/BackwardDeleteWord
 (defun delete-word (arg)
@@ -448,8 +450,23 @@ depending on the current position."
 ;(autoload 'git-blame-mode "git-blame"
 ;          "Minor mode for incremental blame for Git." t)
 
+;; Auto completion
+;;
+;; For the record: auto-complete-mode seems to be dead[1], company-mode
+;; looks like the new standard.
+;;
+;; [1]: https://github.com/auto-complete/auto-complete
 
-; *** MAJOR MODES ***
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Code navigation, et. al
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "C-S-o") 'helm-imenu)
+(global-set-key (kbd "C-p") 'helm-projectile)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+;; *** MAJOR MODES ***
 
 ; send mails from mutt
 (add-to-list 'auto-mode-alist '("mutt-" . mail-mode))
@@ -698,10 +715,6 @@ Otherwise, analyses point position and answers."
   (if (not (one-window-p))
       (delete-window)))
 (global-set-key (kbd "C-x C-k") 'close-and-kill-this-pane)
-
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(global-set-key (kbd "C-p") 'projectile-find-file)
 
 ; no fringe for minibuffer
 (defun setup-echo-area ()
