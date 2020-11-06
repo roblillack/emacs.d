@@ -594,67 +594,6 @@ depending on the current position."
 ; my bufferlist rocks, but sometimes i'm in the mood for ...
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 
-;; ruby
-;(add-to-list 'auto-mode-alist '("\\.rb" . ruby-mode))
-
-;; ECB
-;(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins/ecb-2.32"))
-;(require 'ecb)
-
-; hippie
-(require 'dabbrev)
-(require 'hippie-exp)
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-file-name
-        try-complete-lisp-symbol))
-        ;try-completion))
-;(global-set-key [tab] 'hippie-expand)
-
-(when *want-company*
-  (add-to-list 'load-path "~/.emacs.d/plugins/company")
-  (require 'company-mode)
-  (require 'company-bundled-completions)
-  ;(company-install-bundled-completions-rules)
-  (setq company-complete-on-edit 4)
-  (setq company-idle-delay nil)
-  (setq company-display-style 'pseudo-tooltip)
-  (setq company-tooltip-delay 0.1)
-  (define-key company-mode-map "\t" 'ignore)
-  (define-key company-active-map [tab] 'company-expand-anything)
-  (define-key company-active-map [S-return] 'company-expand-top)
-
-  (company-install-dabbrev-completions)
-  (company-install-file-name-completions)
-  (company-install-lisp-completions)
-  (when *want-gtags*
-    (require 'company-gtags-completions))
-
-  (dolist (hook '(c-mode-common-hook
-                  css-mode-hook
-                  php-mode-hook
-                  emacs-lisp-hook
-                  lisp-mode-hook))
-    (add-hook hook
-              '(lambda ()
-                 (company-mode t)))))
-
-;(require 'completion-ui)
-;(defun dabbrev--wrapper (prefix maxnum)
-;  "Wrapper around `dabbrev--find-all-completions',
-;     to use as a `completion-function'."
-;  (dabbrev--reset-global-variables)
-;  (let ((completions (dabbrev--find-all-expansions prefix nil)))
-;    (when maxnum
-;      (setq completions
-;            (butlast completions (- (length completions) maxnum))))
-;    completions))
-;(setq-default completion-function 'dabbrev--wrapper)
-;(setq completion-auto-show 'pop-up)
-;(setq completion-auto-popup-frame t)
-
 (defun smart-tab ()
   ""
   (interactive)
@@ -800,66 +739,6 @@ Otherwise, analyses point position and answers."
 (global-set-key [(control shift wheel-up)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-prev)))
 (global-set-key [(control shift wheel-down)] '(lambda () (interactive) (cua--deactivate) (highlight-symbol-next)))
 
-; ruby
-; cd ~/.emacs.d/plugins && svn co http://svn.ruby-lang.org/repos/ruby/trunk/misc ruby
-;(add-to-list 'load-path "~/.emacs.d/plugins/ruby")
-;(autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
-;(setq auto-mode-alist (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
-;(setq interpreter-mode-alist (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
-;(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process")
-;(autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
-;(autoload 'ruby-electric-mode "ruby-electric" "Run the electric ruby minor mode")
-;(add-hook 'ruby-mode-hooku
-;          '(lambda ()
-;             (inf-ruby-keys)
-;             (ruby-electric-mode t)
-;             ))
-
-; rails
-; cd ~/.emacs.d/plugins
-; wget http://www.kazmier.com/computer/snippet.el
-; wget -O find-recursive.el http://www.webweavertech.com/ovidiu/emacs/find-recursive.txt
-; git clone git://github.com/tomtt/emacs-rails.git
-;(add-to-list 'load-path "~/.emacs.d/plugins/emacs-rails")
-;(require 'rails)
-
-; ri
-;(autoload 'ri "ri-ruby" nil t)
-;(autoload 'ri-ruby-complete-symbol "ri-ruby" nil t)
-;(autoload 'ri "ri-ruby" nil t)
-;(add-hook 'ruby-mode-hook (lambda ()
-;                            (local-set-key [f1] 'ri)
-;                            (local-set-key [tab] 'ri-ruby-complete-symbol)
-;                            (local-set-key [f4] 'ri-ruby-show-args)
-;                            ))
-
-;;; nxhtml
-;(load "~/.emacs.d/plugins/nxhtml/autostart.el")
-;(setq
-; nxhtml-global-minor-mode t
-; mumamo-chunk-coloring 'submode-colored
-; nxhtml-skip-welcome t
-; indent-region-mode t
-; rng-nxml-auto-validate-flag nil
-; nxml-degraded t)
-;(add-to-list 'auto-mode-alist '("\\.rhtml\\'" . eruby-nxhtml-mumamo-mode))
-;(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo-mode))
-
-
-;; rhtml --> html
-;(add-to-list 'auto-mode-alist '("\\.rhtml$" . nxml-mode))
-;(add-to-list 'auto-mode-alist '("\\.rxml$" . ruby-mode))
-;(add-to-list 'auto-mode-alist '("\\.rjs$" . ruby-mode))
-
-;(require 'yaml-mode)
-;(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
-;(add-to-list 'load-path "~/.emacs.d/plugins")
-;(require 'doc-mode)
-;(add-hook 'c++-mode-hook 'doc-mode)
-;(add-hook 'java-mode-hook 'doc-mode)
-;(add-hook 'php-mode-hook 'doc-mode)
-
 ;(require 'lusty-explorer)
 
 ;(add-to-list 'load-path "~/.emacs.d/plugins/emacs-w3m")
@@ -875,23 +754,6 @@ Otherwise, analyses point position and answers."
 (when (eq window-system 'x)
   (setq browse-url-generic-program "google-chrome"))
 (setq browse-url-browser-function 'browse-url-generic)
-
-(defun my-c-mode-common-hook ()
-  (c-set-offset 'substatement-open 0)
-  (c-set-offset 'statement-cont 4)
-  (c-set-offset 'topmost-intro-cont 0)
-  (c-set-offset 'block-open 0)
-  (c-set-offset 'arglist-intro 4)
-  (c-set-offset 'arglist-cont-nonempty 4))
-(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
-
-(defun my-csharp-mode-hook ()
-  (progn
-   (setq tab-width 2)
-   (setq c-basic-offset 2)
-   (define-key csharp-mode-map (kbd "<return>") 'newline-and-indent)))
-
-(add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
