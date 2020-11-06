@@ -231,7 +231,7 @@ buffer-local variable `show-trailing-whitespace'."
 (if (null key-translation-map) (setq key-translation-map (make-sparse-keymap)))
 
 ; tab is tab
-;; (define-key key-translation-map "\t" (kbd "<tab>"))
+(define-key key-translation-map "\t" (kbd "<tab>"))
 
 (define-key key-translation-map (kbd "\e[1;5A") (kbd "C-<up>"))
 (define-key key-translation-map (kbd "\e[1;5B") (kbd "C-<down>"))
@@ -552,7 +552,7 @@ depending on the current position."
     (indent-for-tab-command))
   (setq smart-tab-active nil))
 
-(global-set-key [tab] 'smart-tab)
+(global-set-key (kbd "<tab>") 'smart-tab)
 
 ; bookmarks, see el-get-sources above
 (require 'bm)
