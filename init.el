@@ -26,11 +26,6 @@
 (setq inhibit-startup-message t)
 (setq *is-a-mac* (eq system-type 'darwin))
 
-(setq *want-company* nil)
-(setq *want-gtags* t)
-(setq *want-ac* t)
-(setq *want-yasnippet* nil)
-
 ;; Set basic looks pretty early after startup ...
 
 (xterm-mouse-mode 1)
@@ -44,36 +39,14 @@
     (setq column-number-mode t))
   (menu-bar-mode -1))
 
-;; (setq exec-path
-;;   '((expand-file-name "~/bin")
-;;     "/usr/local/bin"
-;;     "/opt/local/bin"
-;;     "/bin"
-;;     "/usr/bin"
-;;     "/sbin"
-;;     "/usr/sbin"))
-
-;; (when *is-a-mac*
-;;   (setenv "PATH" (concat
-;;                   (expand-file-name "~/bin")
-;;                   ":/opt/local/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin")))
-
-; jetzt ziehen wir alle register
-(set-register ?e '(file . "~/.emacs"))
-
 (add-hook 'before-save-hook #'gofmt-before-save)
-
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp"))
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/plugins"))
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-
-;(global-set-key (kbd "C-x C-b") 'ibuffer)
-;(autoload 'ibuffer "ibuffer" "List buffers." t)
 
 ; LOOK
 (setq-default cursor-type '(bar . 2))                 ; cursor soll ein strich sein
@@ -421,35 +394,6 @@ depending on the current position."
 (global-set-key (kbd "s-_") 'shrink-window)
 (global-set-key (kbd "S-s-<insert>")  'split-window-vertically)
 
-; Use imenu to jump to definitions in current file
-(global-set-key (kbd "C-j") 'imenu)
-
-; Use GNU Global for project global jumps
-(when *want-gtags*
-  (require 'gtags)
-  (dolist (hook '(c-mode-hook
-                  php-mode-hook
-                  emacs-lisp-hook
-                  lisp-mode-hook))
-    (add-hook hook
-              '(lambda ()
-                 (gtags-mode t))))
-  (global-set-key (kbd "C-S-j") 'gtags-find-tag))
-
-(global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
-;(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
-;(global-set-key (kbd "C-x C-p") 'find-file-at-point)
-;(global-set-key (kbd "C-c y") 'bury-buffer)
-;(global-set-key (kbd "C-c r") 'revert-buffer)
-;(global-set-key (kbd "M-`") 'file-cache-minibuffer-complete)
-
-;(setq load-path (cons (expand-file-name "/usr/share/doc/git-core/contrib/emacs") load-path))
-;(require 'vc-git)
-;(when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
-;(require 'git)
-;(autoload 'git-blame-mode "git-blame"
-;          "Minor mode for incremental blame for Git." t)
-
 ;; Auto completion
 ;;
 ;; For the record: auto-complete-mode seems to be dead[1], company-mode
@@ -463,6 +407,7 @@ depending on the current position."
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (global-set-key (kbd "C-S-o") 'helm-imenu)
+(global-set-key (kbd "C-j") 'helm-imenu) ; “jump” -- remove this, as I'm so used to VSCode's C-S-o?
 (global-set-key (kbd "C-p") 'helm-projectile)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
@@ -553,23 +498,6 @@ depending on the current position."
       (insert "\n- ")))
     (widen))
 
-; PHP support
-(autoload 'php-mode "php-mode" "PHP editing mode" t)
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.php3\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.php4\\'" . php-mode))
-
-(add-hook 'php-mode-hook
-          (lambda ()
-            (c-set-style "user")
-            (define-key php-mode-map (kbd "C-.") nil)))
-;            (require 'flymake-php)
-;            (flymake-mode t)))
-
-; LLVM Assembly Language support
-(autoload 'llvm-mode "llvm-mode" "LLVM Assembly Language support" t)
-(add-to-list 'auto-mode-alist '("\\.ll\\'" . llvm-mode))
-
 ; Don't break the signature separator!
 (add-hook 'before-save-hook
           (lambda ()
@@ -580,14 +508,6 @@ depending on the current position."
 
 ; robs bufferlist
 (require 'bufferlist)
-
-; turn on tempbuf mode for some types of buffers
-; cd ~/.emacs.d/plugins && wget http://www.emacswiki.org/emacs/download/tempbuf.el
-(require 'tempbuf)
-(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
-(add-hook 'w3-mode-hook 'turn-on-tempbuf-mode)
-(add-hook 'Man-mode-hook 'turn-on-tempbuf-mode)
-(add-hook 'WoMan-mode-hook 'turn-on-tempbuf-mode)
 
 ; whitespace-mode
 (setq whitespace-display-mappings
@@ -776,5 +696,5 @@ Otherwise, analyses point position and answers."
 (when window-system
   (server-start))
 
-(require 'edit-server)
-(edit-server-start)
+;; (require 'edit-server)
+;; (edit-server-start)
