@@ -534,24 +534,14 @@ depending on the current position."
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 
 (defun smart-tab ()
-  ""
+  "Indents region if mark is active, indents current line, or completes current input."
   (interactive)
   (if (minibufferp)
       (minibuffer-complete)
     (if (or mark-active
             (not (looking-at "\\_>")))
         (smart-indent)
-      (smart-expand))))
-
-(defun smart-expand ()
-  "Expands the snippet using `yasnippet' or expands the symbol
-using `company-mode' or `hippie-expand'."
-  (interactive)
-  (if (and *want-ac* auto-complete-mode)
-      (call-interactively 'auto-complete)
-    (unless (and *want-yasnippet* (yas/expand))
-      (cond (*want-company* (call-interactively 'company-start-showing))
-            (t (call-interactively 'hippie-expand))))))
+      (call-interactively 'company-complete))))
 
 (defun smart-indent ()
   "Indents region if mark is active, or current line otherwise."
@@ -561,14 +551,6 @@ using `company-mode' or `hippie-expand'."
                      (region-end))
     (indent-for-tab-command))
   (setq smart-tab-active nil))
-
-
-(defun smart-tab-must-expand (&optional prefix)
-  "If PREFIX is \\[universal-argument], answers no.
-Otherwise, analyses point position and answers."
-  (unless (or (consp prefix)
-              mark-active)
-    (looking-at "\\_>")))
 
 (global-set-key [tab] 'smart-tab)
 
@@ -691,6 +673,9 @@ Otherwise, analyses point position and answers."
 (setq browse-url-browser-function 'browse-url-generic)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+; to make sure smart-tab is not getting in our way here
+(with-eval-after-load 'magit
+  (define-key magit-mode-map (kbd "<tab>") #'magit-section-toggle))
 
 ; load initialization stuff that should not go into github :)
 (load (expand-file-name "~/.emacs.d/private.el") t)
