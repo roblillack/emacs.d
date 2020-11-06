@@ -278,6 +278,7 @@ buffer-local variable `show-trailing-whitespace'."
 (define-key key-translation-map (kbd "\e[rA;UP~") (kbd "M-<up>"))
 (define-key key-translation-map (kbd "\e[rA;DOWN~") (kbd "M-<down>"))
 
+(define-key key-translation-map (kbd "\e[rC;F~") (kbd "C-S-f"))
 (define-key key-translation-map (kbd "\e[rC;O~") (kbd "C-S-o"))
 
 
@@ -406,9 +407,10 @@ depending on the current position."
 ;; Code navigation, et. al
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(global-set-key (kbd "C-S-o") 'helm-imenu)
-(global-set-key (kbd "C-j") 'helm-imenu) ; “jump” -- remove this, as I'm so used to VSCode's C-S-o?
-(global-set-key (kbd "C-p") 'helm-projectile)
+(global-set-key (kbd "C-S-f") 'helm-projectile-grep) ; find file in project
+(global-set-key (kbd "C-S-o") 'helm-imenu)           ; jump to definition
+(global-set-key (kbd "C-j") 'helm-imenu)             ; “jump” -- remove this, as I'm so used to VSCode's C-S-o?
+(global-set-key (kbd "C-p") 'helm-projectile)        ; jump to file in project
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; *** MAJOR MODES ***
