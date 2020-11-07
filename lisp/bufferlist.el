@@ -153,7 +153,8 @@
     (set-buffer-modified-p nil)
     (setq buffer-read-only t)
     (switch-to-buffer (current-buffer))
-    (set-window-fringes nil 0 0 0)))
+    (set-window-fringes nil 0 0 0)
+    (bufferlist-style-buffer)))
 
 (defun bufferlist ()
   "erstellt eine bufferlist aehnlich der, die ich fuer vim gebaut habe "
